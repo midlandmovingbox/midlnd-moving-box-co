@@ -3,6 +3,7 @@ import { randomUUID } from 'crypto';
 import { supabaseAdmin } from '../../../lib/supabaseAdmin';
 import { PACKAGES, computeTotals } from '../../../lib/constants';
 import { surchargeFor } from '../../../lib/zones';
+import { POLICY } from '../../../lib/policy';
 import { createCustomer, createCardOnFile } from '../../../lib/square';
 import { emailRequestReceived, emailOwnerNewRequest } from '../../../lib/email';
 
@@ -66,6 +67,9 @@ export async function POST(request) {
         delivery_surcharge: zones.from.fee || 0,
         pickup_surcharge: zones.to.fee || 0,
         needs_quote: zones.needsQuote,
+        consent_at: new Date().toISOString(),
+        consent_version: POLICY.version,
+        consent_ip: (request.headers.get('x-forwarded-for') || '').split(',')[0].trim() || null,
         name,
         phone,
         email: email || null,

@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { surchargeFor } from '../../lib/zones';
+import { feeSummaryLines } from '../../lib/policy';
+import AddressInput from '../../components/AddressInput';
 
 const PACKAGES = {
   small: { name: 'Small Move', desc: '20 totes · 1 dolly · 1 bedroom/apartment', price: 109 },
@@ -9,7 +11,7 @@ const PACKAGES = {
   big: { name: 'Big Move', desc: '60 totes · 3 dollies · 4+ bedrooms', price: 239 },
 };
 const ADDONS = [
-  { id: 'tote', name: 'Extra tote (single)', price: 3 },
+  { id: 'tote', name: 'Extra tote (single)', price: 4 },
   { id: 'dolly', name: 'Extra tote dolly', price: 12 },
   { id: 'blankets', name: 'Moving blankets (set of 6)', price: 15 },
   { id: 'wardrobe', name: 'Wardrobe box', price: 18 },
@@ -94,6 +96,12 @@ export default function BookPage() {
     return ADDONS.reduce((sum, a) => sum + a.price * (addons[a.id] || 0), 0);
   }
   const zones = surchargeFor(fromAddress, toAddress);
+  const unlisted = [];
+  if (zones.from.zip && zones.from.fee === null) unlisted.push(`${zones.from.zip} (drop-off)`);
+  if (zones.to.zip && zones.to.fee === null) unlisted.push(`${zones.to.zip} (pickup)`);
+  const feeParts = [];
+  if (zones.from.fee > 0) feeParts.push(`drop-off ${zones.from.zip} +${money(zones.from.fee)}`);
+  if (zones.to.fee > 0) feeParts.push(`pickup ${zones.to.zip} +${money(zones.to.fee)}`);
   function subtotal() {
     return (pkg ? PACKAGES[pkg].price : 0) + addonTotal() + zones.knownTotal;
   }
@@ -249,11 +257,11 @@ export default function BookPage() {
           </div>
           <div className="field">
             <label>Where are you moving from? <span style={{ color: '#8a8676', fontWeight: 400 }}>(we deliver your totes here)</span></label>
-            <input type="text" value={fromAddress} onChange={(e) => setFromAddress(e.target.value)} placeholder="Street, city, ZIP" required />
+            <AddressInput value={fromAddress} onChange={setFromAddress} placeholder="Start typing your address" required />
           </div>
           <div className="field">
             <label>Where are you moving to? <span style={{ color: '#8a8676', fontWeight: 400 }}>(we pick up your totes here)</span></label>
-            <input type="text" value={toAddress} onChange={(e) => setToAddress(e.target.value)} placeholder="Street, city, ZIP" required />
+            <AddressInput value={toAddress} onChange={setToAddress} placeholder="Start typing your address" required />
           </div>
           <div className="field">
             <label>Anything else we should know?</label>
@@ -276,25 +284,36 @@ export default function BookPage() {
             <div className="summary-row"><span>Package</span><span>{pkg ? `${PACKAGES[pkg].name} — ${money(PACKAGES[pkg].price)}` : '—'}</span></div>
             <div className="summary-row"><span>Add-ons</span><span>{money(addonTotal())}</span></div>
             {zones.knownTotal > 0 && (
-              <div className="summary-row"><span>Delivery area fee</span><span>{money(zones.knownTotal)}</span></div>
+              <div className="summary-row"><span>Delivery area fee ({feeParts.join(', ')})</span><span>{money(zones.knownTotal)}</span></div>
             )}
             <div className="summary-row"><span>Texas sales tax (8.25%)</span><span>{money(tax())}</span></div>
-            <div className="summary-row total"><span>Total if confirmed</span><span>{money(total())}{zones.needsQuote && fromAddress && toAddress ? ' + area fee' : ''}</span></div>
-            {zones.needsQuote && zones.from.zip && zones.to.zip && (
+            <div className="summary-row total"><span>Total if confirmed</span><span>{money(total())}{unlisted.length > 0 ? ' + area fee' : ''}</span></div>
+            {unlisted.length > 0 && (
               <p className="summary-note" style={{ marginTop: 10 }}>
-                One of your addresses is outside our standard delivery area. We'll email you the area fee to approve before anything is charged.
+                ZIP {unlisted.join(' and ')} isn't on our delivery list yet. We'll email you the area fee to approve before anything is charged.
               </p>
             )}
           </div>
         </div>
 
         <div className="form-section">
+          <div className="consent-box">
+            <h4>Before you submit, please read</h4>
+            <ul>
+              {feeSummaryLines().map((t) => (
+                <li key={t}>{t}</li>
+              ))}
+            </ul>
+          </div>
           <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 13, lineHeight: 1.6, color: '#4c4a42' }}>
             <input type="checkbox" checked={agreedToTerms} onChange={(e) => setAgreedToTerms(e.target.checked)} style={{ marginTop: 3 }} />
             <span>
-              I authorize Midland Moving Box Co. to securely store my card with Square and to charge it for
-              this rental once confirmed, and for any agreed-upon extensions, additional totes, or
-              damage/late-return charges disclosed at delivery.
+              I have read and understand the fees and timelines above and the{' '}
+              <a href="/terms" target="_blank" rel="noopener" style={{ textDecoration: 'underline' }}>Terms &amp; Conditions</a> and{' '}
+              <a href="/privacy" target="_blank" rel="noopener" style={{ textDecoration: 'underline' }}>Privacy Policy</a>.
+              I authorize Midland Moving Box Co. to securely store my card with Square, to charge it for this
+              rental once confirmed, and to charge it for any extension I approve and for the damage, missing
+              item, not-ready, late-cancellation and other fees described above.
             </span>
           </label>
         </div>

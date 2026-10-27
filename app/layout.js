@@ -1,4 +1,5 @@
 import './globals.css';
+import LegalBar from '../components/LegalBar';
 
 export const metadata = {
   metadataBase: new URL('https://midlandmovingbox.com'),
@@ -30,7 +31,10 @@ export default function RootLayout({ children }) {
         />
         <script src={squareSdkSrc} async></script>
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <LegalBar />
+      </body>
     </html>
   );
 }

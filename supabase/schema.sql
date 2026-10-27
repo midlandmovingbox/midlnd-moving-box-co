@@ -61,3 +61,17 @@ alter table reservations add column if not exists quote_sent_at timestamptz;
 -- Added later: why a request was declined
 alter table reservations add column if not exists decline_reason text;
 alter table reservations add column if not exists decline_note text;
+
+-- Added later: consent record
+alter table reservations add column if not exists consent_at timestamptz;
+alter table reservations add column if not exists consent_version text;
+alter table reservations add column if not exists consent_ip text;
+
+-- Added later: delivery / pickup counts and cancellations
+alter table reservations add column if not exists delivered_at timestamptz;
+alter table reservations add column if not exists delivered_totes int;
+alter table reservations add column if not exists delivered_dollies int;
+alter table reservations add column if not exists picked_up_at timestamptz;
+alter table reservations add column if not exists picked_up_totes int;
+alter table reservations add column if not exists picked_up_dollies int;
+-- status can now also be: cancelled

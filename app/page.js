@@ -1,3 +1,4 @@
+import Faq from '../components/Faq';
 // ONE-STEP PHONE SWAP: once you pick a number, fill in both lines below.
 // Example: PHONE_DISPLAY = '(432) 555-1234'  and  PHONE_DIGITS = '4325551234'
 // While PHONE_DISPLAY is empty, no phone number shows on the site.
@@ -57,20 +58,20 @@ export default function Home() {
       <section className="how" id="how">
         <div className="wrap">
           <div className="section-eyebrow">The route</div>
-          <h2 className="section-title">Three stops. That's the whole job.</h2>
+          <h2 className="section-title">Three steps. Simple, easy, &amp; clean.</h2>
           <div className="how-row">
             <div className="how-step">
-              <div className="idx">STOP 01 — WE DELIVER</div>
+              <div className="idx">STEP 01 — WE DELIVER</div>
               <h3>Totes show up packed flat</h3>
               <p>We bring your totes and dolly straight to your door on the morning you pick.</p>
             </div>
             <div className="how-step">
-              <div className="idx">STOP 02 — YOU MOVE</div>
+              <div className="idx">STEP 02 — YOU MOVE</div>
               <h3>Pack, load, move</h3>
               <p>Two full weeks with your totes. They stack clean and won't blow out like a wet box.</p>
             </div>
             <div className="how-step">
-              <div className="idx">STOP 03 — WE PICK UP</div>
+              <div className="idx">STEP 03 — WE PICK UP</div>
               <h3>We haul the empties away</h3>
               <p>Leave the empty totes at the curb or inside the door. We swing by and load them up.</p>
             </div>
@@ -118,7 +119,7 @@ export default function Home() {
             <div className="section-eyebrow">Service area</div>
             <h2 className="section-title">Where we deliver.</h2>
             <div className="area-box">
-              <div className="zone-row"><span>Midland &amp; Odessa<br /><span className="mono" style={{ fontSize: 11, color: '#8a8676' }}>79701–79705, 79712</span></span><span className="fee">Free delivery</span></div>
+              <div className="zone-row"><span>Midland &amp; Odessa<br /><span className="mono" style={{ fontSize: 11, color: '#8a8676' }}>79701–79705, 79707, 79712</span></span><span className="fee">Free delivery</span></div>
               <div className="zone-row"><span>Nearby<br /><span className="mono" style={{ fontSize: 11, color: '#8a8676' }}>79706, 79758, 79765, 79782</span></span><span className="fee">+$20 each way</span></div>
               <div className="zone-row"><span>Outlying<br /><span className="mono" style={{ fontSize: 11, color: '#8a8676' }}>79749, 79761–79764, 79766, 79783</span></span><span className="fee">+$30 each way</span></div>
               <div className="zone-row"><span>Anywhere else</span><span className="fee">We'll quote you</span></div>
@@ -136,6 +137,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <Faq />
 
       <section className="final-cta">
         <div className="wrap">
@@ -164,6 +167,11 @@ export default function Home() {
             <span>© 2026 Midland Moving Box Co. All rights reserved.</span>
             <span>Texas sales tax (8.25%) applies to all rentals.</span>
             <span>Payments processed by Square.</span>
+            <span>
+              <a href="/privacy" style={{ textDecoration: 'underline' }}>Privacy Policy</a>
+              {' · '}
+              <a href="/terms" style={{ textDecoration: 'underline' }}>Terms &amp; Conditions</a>
+            </span>
           </div>
         </div>
       </footer>
