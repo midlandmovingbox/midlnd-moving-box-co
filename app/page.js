@@ -87,8 +87,13 @@ export default function Home() {
           <div className="pkg-grid">
             <div className="pkg-card">
               <div className="pkg-tab">1 Bedroom / Apartment</div>
-              <div className="pkg-name">Small Move</div>
-              <div className="pkg-price">$109<sup>/ 2 wks</sup></div>
+              <div className="pkg-head">
+                <div>
+                  <div className="pkg-name">Small Move</div>
+                  <div className="pkg-price">$109<sup>/ 2 wks</sup></div>
+                </div>
+                <div className="gold-frame"><img src="/pkg-small.jpg" alt="Small Move: three totes and a dolly" loading="lazy" width="720" height="480" /></div>
+              </div>
               <div className="pkg-desc">Enough for a studio or one-bedroom, easy.</div>
               <ul className="pkg-list"><li>20 heavy-duty 27-gallon totes</li><li>1 tote dolly</li><li>Free delivery in select areas</li></ul>
               <a className="pkg-cta" href="/book?pkg=small">Reserve Small Move</a>
@@ -96,16 +101,26 @@ export default function Home() {
             <div className="pkg-card featured">
               <div className="pkg-badge">Most popular</div>
               <div className="pkg-tab">2–3 Bedrooms</div>
-              <div className="pkg-name">Home Move</div>
-              <div className="pkg-price">$179<sup>/ 2 wks</sup></div>
+              <div className="pkg-head">
+                <div>
+                  <div className="pkg-name">Home Move</div>
+                  <div className="pkg-price">$179<sup>/ 2 wks</sup></div>
+                </div>
+                <div className="gold-frame"><img src="/pkg-home.jpg" alt="Home Move: stacked totes on two dollies" loading="lazy" width="720" height="480" /></div>
+              </div>
               <div className="pkg-desc">The one most Midland households book.</div>
               <ul className="pkg-list"><li>40 heavy-duty 27-gallon totes</li><li>2 tote dollies</li><li>Free delivery in select areas</li></ul>
               <a className="pkg-cta" href="/book?pkg=home">Reserve Home Move</a>
             </div>
             <div className="pkg-card">
               <div className="pkg-tab">4+ Bedrooms</div>
-              <div className="pkg-name">Big Move</div>
-              <div className="pkg-price">$239<sup>/ 2 wks</sup></div>
+              <div className="pkg-head">
+                <div>
+                  <div className="pkg-name">Big Move</div>
+                  <div className="pkg-price">$239<sup>/ 2 wks</sup></div>
+                </div>
+                <div className="gold-frame"><img src="/pkg-big.jpg" alt="Big Move: stacked totes on three dollies" loading="lazy" width="720" height="480" /></div>
+              </div>
               <div className="pkg-desc">For the house that's been collecting years of stuff.</div>
               <ul className="pkg-list"><li>60 heavy-duty 27-gallon totes</li><li>3 tote dollies</li><li>Free delivery in select areas</li></ul>
               <a className="pkg-cta" href="/book?pkg=big">Reserve Big Move</a>

@@ -349,3 +349,15 @@ h1,h2,h3,.stencil,.legal-page h1,.legal-page h2{ font-family:'Instrument Serif',
 .hero-photo{ width:100%; height:auto; border-radius:var(--radius); box-shadow:0 14px 36px rgba(0,0,0,0.4); }
 .hero-visual{ padding-bottom:64px; }
 @media(max-width:900px){ .hero-visual{ max-width:560px; } }
+
+/* package photos in gold frames */
+.pkg-head{ display:flex; justify-content:space-between; align-items:center; gap:14px; padding-right:20px; }
+.pkg-head .pkg-name, .pkg-head .pkg-price{ padding-right:0; }
+.gold-frame{ flex:none; width:clamp(122px, 40%, 190px); margin-top:18px; padding:6px;
+  background:linear-gradient(135deg,#f6e3a0 0%,#cfa23f 20%,#8c6420 42%,#e9c869 60%,#a67b2b 80%,#f3d983 100%);
+  border-radius:2px;
+  box-shadow:0 3px 8px rgba(40,25,5,0.32), inset 0 0 0 1px rgba(255,240,180,0.75), inset 0 0 0 3px rgba(110,72,16,0.35); }
+.gold-frame img{ display:block; width:100%; height:auto; border:2px solid #5e4112; box-shadow:0 0 0 1px rgba(255,232,150,0.8); }
+@media(max-width:900px){ .gold-frame{ width:clamp(140px, 38%, 200px); } }
+.pkg-price sup{ white-space:nowrap; }
+@media(max-width:480px){ .gold-frame{ width:clamp(112px, 33%, 150px); } .pkg-price{ font-size:46px; } }
