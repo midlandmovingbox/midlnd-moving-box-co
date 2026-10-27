@@ -31,7 +31,7 @@ export const FAQ_ITEMS = [
   },
   {
     q: 'What areas do you serve?',
-    a: "We deliver free across Midland and Odessa, with a small fee for nearby and outlying ZIP codes. Check the service area section above, or enter your addresses on the reservation form and the fee shows up before you submit. If your ZIP isn't on our list, we'll email you a quote to approve first.",
+    a: "Delivery and pickup are free in select Midland and Odessa ZIP codes, with a small fee for nearby and outlying ZIP codes. Check the service area section above, or enter your addresses on the reservation form and the fee shows up before you submit. If your ZIP isn't on our list, we'll email you a quote to approve first.",
   },
   {
     q: 'Is sales tax included?',
