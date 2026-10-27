@@ -6,6 +6,10 @@ export const FAQ_ITEMS = [
     a: "Reusable totes are sturdier than cardboard, stack cleanly, hold up to Texas wind and weather, and don't collapse when they get heavy. We deliver them, you pack and move on your schedule, and we pick them up. There's no tape, no flattening, no trips to buy boxes, and no pile of cardboard to get rid of afterward.",
   },
   {
+    q: 'Are the totes clean?',
+    a: "Yes. Every tote arrives clean and sanitized, ready for your move. Please return them empty and in the same condition.",
+  },
+  {
     q: 'When am I charged?',
     a: `When you submit a request we securely save your card with Square. It is not charged. After we review and approve your request, we charge the rental total. Any later charges (like an approved extension or the fees in our Terms) are charged to the same card, within ${POLICY.chargeWindowDays} days of pickup, and we email you an itemized receipt.`,
   },

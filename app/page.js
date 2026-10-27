@@ -39,7 +39,7 @@ export default function Home() {
             <div className="ticket">
               <div className="ticket-head">
                 <div className="to">Deliver To<br /><strong style={{ color: 'var(--ink)', fontFamily: "'Figtree'", fontSize: 14 }}>Your Address, Midland TX</strong></div>
-                <div className="no">Ticket No.<br />MMB-0472</div>
+                <div className="no">Order No.<br />MMB-0472</div>
               </div>
               <div className="ticket-body">
                 <div className="ticket-row"><span className="k">Package</span><span className="v">Home Move</span></div>
@@ -64,7 +64,7 @@ export default function Home() {
             <div className="how-step">
               <div className="idx">STEP 01 — WE DELIVER</div>
               <h3>Totes show up at your door</h3>
-              <p>We bring your totes and dolly straight to your door on the morning you pick.</p>
+              <p>We bring your clean, sanitized totes and dolly straight to your door on the morning you pick.</p>
             </div>
             <div className="how-step">
               <div className="idx">STEP 02 — YOU PACK &amp; MOVE</div>
@@ -95,7 +95,7 @@ export default function Home() {
                 <div className="gold-frame"><img src="/pkg-small.jpg" alt="Small Move: three totes and a dolly" loading="lazy" width="720" height="480" /></div>
               </div>
               <div className="pkg-desc">Enough for a studio or one-bedroom, easy.</div>
-              <ul className="pkg-list"><li>20 heavy-duty 27-gallon totes</li><li>1 tote dolly</li><li>Free delivery in select areas</li></ul>
+              <ul className="pkg-list"><li>20 heavy-duty 27-gallon totes</li><li>1 tote dolly</li><li>Clean &amp; sanitized before every rental</li><li>Free delivery in select areas</li></ul>
               <a className="pkg-cta" href="/book?pkg=small">Reserve Small Move</a>
             </div>
             <div className="pkg-card featured">
@@ -109,7 +109,7 @@ export default function Home() {
                 <div className="gold-frame"><img src="/pkg-home.jpg" alt="Home Move: stacked totes on two dollies" loading="lazy" width="720" height="480" /></div>
               </div>
               <div className="pkg-desc">The one most Midland households book.</div>
-              <ul className="pkg-list"><li>40 heavy-duty 27-gallon totes</li><li>2 tote dollies</li><li>Free delivery in select areas</li></ul>
+              <ul className="pkg-list"><li>40 heavy-duty 27-gallon totes</li><li>2 tote dollies</li><li>Clean &amp; sanitized before every rental</li><li>Free delivery in select areas</li></ul>
               <a className="pkg-cta" href="/book?pkg=home">Reserve Home Move</a>
             </div>
             <div className="pkg-card">
@@ -122,7 +122,7 @@ export default function Home() {
                 <div className="gold-frame"><img src="/pkg-big.jpg" alt="Big Move: stacked totes on three dollies" loading="lazy" width="720" height="480" /></div>
               </div>
               <div className="pkg-desc">For the house that's been collecting years of stuff.</div>
-              <ul className="pkg-list"><li>60 heavy-duty 27-gallon totes</li><li>3 tote dollies</li><li>Free delivery in select areas</li></ul>
+              <ul className="pkg-list"><li>60 heavy-duty 27-gallon totes</li><li>3 tote dollies</li><li>Clean &amp; sanitized before every rental</li><li>Free delivery in select areas</li></ul>
               <a className="pkg-cta" href="/book?pkg=big">Reserve Big Move</a>
             </div>
           </div>
