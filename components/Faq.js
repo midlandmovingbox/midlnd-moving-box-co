@@ -1,4 +1,4 @@
-import { POLICY, usd } from '../lib/policy';
+import { POLICY } from '../lib/policy';
 
 export const FAQ_ITEMS = [
   {
@@ -11,7 +11,8 @@ export const FAQ_ITEMS = [
   },
   {
     q: 'What if I need more time?',
-    a: `Just ask before your pickup date. Extra time is ${usd(POLICY.extensionPerToteWeek)} per tote, per week plus sales tax, and we confirm with you before charging it.`,
+    a: `Just ask before your pickup date, and we confirm with you before charging anything. Extra time pricing is on our Fees & Charges page.`,
+    link: { href: '/extend', label: 'Request an extension' },
   },
   {
     q: 'Do I need to be home for delivery or pickup?',
@@ -24,11 +25,12 @@ export const FAQ_ITEMS = [
   },
   {
     q: 'Can I cancel or reschedule?',
-    a: `Yes. With ${POLICY.cancelFreeHours}+ hours' notice before delivery, cancelling or rescheduling is free. After that, cancelling is ${usd(POLICY.cancelFee)} and rescheduling is ${usd(POLICY.rescheduleFee)}, plus sales tax.`,
+    a: `Yes. With ${POLICY.cancelFreeHours}+ hours' notice before delivery, cancelling or rescheduling is free. Fees for later changes are listed on our Fees & Charges page.`,
+    link: { href: '/fees', label: 'See Fees & Charges' },
   },
   {
     q: 'How many totes do I need?',
-    a: "Small Move (20 totes) fits a studio or one-bedroom. Home Move (40 totes) is the most popular for 2–3 bedrooms. Big Move (60 totes) is for 4+ bedrooms or a house that's been collecting for years. You can add extra totes on the reservation form.",
+    a: "Small Move (20 totes) fits a studio or one-bedroom. Home Move (40 totes) is the most popular for 2–3 bedrooms. Big Move (60 totes) is for 4+ bedrooms or a house that's been collecting for years. These numbers are suggestions, not a guarantee of how many totes you'll need. Every home is different. You can add extra totes on the reservation form.",
   },
   {
     q: 'What areas do you serve?',
