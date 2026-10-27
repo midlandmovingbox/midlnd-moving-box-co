@@ -3,12 +3,12 @@ import LegalBar from '../components/LegalBar';
 
 export const metadata = {
   metadataBase: new URL('https://midlandmovingbox.com'),
-  title: 'Midland Moving Box Co. — Reusable Moving Totes, Delivered',
+  title: 'Midland Moving Box Co. — Reusable Moving Tote Rentals, Delivered',
   description:
     'Rent heavy-duty reusable moving totes and dollies in Midland & Odessa, TX. We deliver, you pack, we pick up. Reserve online in 2 minutes.',
   openGraph: {
-    title: 'Midland Moving Box Co. — Reusable Moving Totes, Delivered',
-    description: 'Skip the cardboard. Heavy-duty moving totes delivered in Midland & Odessa, TX.',
+    title: 'Midland Moving Box Co. — Reusable Moving Tote Rentals, Delivered',
+    description: 'Skip the cardboard. Rent heavy-duty moving totes, delivered in Midland & Odessa, TX.',
     url: 'https://midlandmovingbox.com',
     siteName: 'Midland Moving Box Co.',
     type: 'website',

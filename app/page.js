@@ -25,14 +25,14 @@ export default function Home() {
         <div className="wrap" style={{ paddingBottom: 0 }}>
           <div className="hero-grid">
             <div>
-              <div className="eyebrow-mono">Delivered · Midland &amp; Odessa, TX</div>
-              <h1>Skip the cardboard.<span className="thin">Heavy-duty moving totes, delivered to your door.</span></h1>
-              <p className="sub">Reusable moving totes delivered to your door. We deliver. You pack. You move. We pick up.</p>
+              <div className="eyebrow-mono">Moving tote rentals · Midland &amp; Odessa, TX</div>
+              <h1>Skip the cardboard.<span className="thin">Heavy-duty moving tote rentals, delivered to your door.</span></h1>
+              <p className="sub">Rent reusable moving totes for two weeks. We deliver. You pack. You move. We pick up.</p>
               <div className="hero-actions">
                 <a className="btn-primary" href="/book">Reserve in 2 Minutes →</a>
                 <a className="btn-ghost" href="#packages">See packages</a>
               </div>
-              <div className="hero-note" style={{ marginTop: 18 }}>Free delivery &amp; pickup in select Midland &amp; Odessa areas · Packages start at $109</div>
+              <div className="hero-note" style={{ marginTop: 18 }}>Free delivery &amp; pickup in select Midland &amp; Odessa areas · Rental packages start at $109</div>
             </div>
             <div className="hero-visual">
               <img className="hero-photo" src="/hero-totes.jpg" alt="Black Midland Moving Box Co. totes with yellow lids stacked in a living room, one open and packed" width="1536" height="1024" />
