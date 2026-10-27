@@ -12,6 +12,7 @@ export default function LegalBar() {
       <span>© 2026 Midland Moving Box Co.</span>
       <a href="/privacy">Privacy Policy</a>
       <a href="/terms">Terms &amp; Conditions</a>
+      <a href="/fees">Fees &amp; Charges</a>
     </div>
   );
 }

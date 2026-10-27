@@ -2,26 +2,19 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { surchargeFor } from '../../lib/zones';
-import { feeSummaryLines } from '../../lib/policy';
+import { POLICY } from '../../lib/policy';
 import AddressInput from '../../components/AddressInput';
 import SiteLogo from '../../components/SiteLogo';
 
-const PACKAGES = {
-  small: { name: 'Small Move', desc: '20 totes · 1 dolly · 1 bedroom/apartment', price: 109 },
-  home: { name: 'Home Move', desc: '40 totes · 2 dollies · 2–3 bedrooms · Most booked', price: 179 },
-  big: { name: 'Big Move', desc: '60 totes · 3 dollies · 4+ bedrooms', price: 239 },
+import { PACKAGES as LIB_PACKAGES, ADDONS, TAX_RATE } from '../../lib/constants';
+
+// Limits and prices come from lib/constants (the same numbers the server enforces).
+const DETAILS = {
+  small: '20 totes · 1 dolly · 1 bedroom/apartment',
+  home: '40 totes · 2 dollies · 2–3 bedrooms',
+  big: '60 totes · 3 dollies · 4+ bedrooms',
 };
-const ADDONS = [
-  { id: 'tote', name: 'Extra tote (single)', price: 4 },
-  { id: 'dolly', name: 'Extra tote dolly', price: 12 },
-  { id: 'blankets', name: 'Moving blankets (set of 6)', price: 15 },
-  { id: 'wardrobe', name: 'Wardrobe box', price: 18 },
-  { id: 'tv', name: 'TV box, up to 65"', price: 20 },
-  { id: 'wrap', name: 'Stretch wrap roll', price: 8 },
-  { id: 'mattress', name: 'Mattress bag', price: 10 },
-  { id: 'kit', name: 'Kitchen packing kit', price: 14 },
-];
-const TAX_RATE = 0.0825;
+const PACKAGES = Object.fromEntries(Object.entries(LIB_PACKAGES).map(([k, v]) => [k, { ...v, desc: DETAILS[k] }]));
 
 function money(n) {
   return '$' + n.toFixed(2).replace(/\.00$/, '');
@@ -194,12 +187,18 @@ export default function BookPage() {
   return (
     <>
       <div className="book-header">
-        <div className="wrap">
-          <SiteLogo height={56} />
-          <div style={{ height: 14 }} />
-          <a className="back-link" href="/">← Back to home</a>
-          <h1>Reserve your totes</h1>
-          <p>We'll securely save your card and review your dates before anything is charged.</p>
+        <div className="wrap book-header-grid">
+          <div>
+            <SiteLogo height={56} />
+            <div style={{ height: 14 }} />
+            <a className="back-link" href="/">← Back to home</a>
+            <h1>Reserve your totes</h1>
+            <p>We'll securely save your card and review your dates before anything is charged.</p>
+          </div>
+          <div className="book-motto">
+            <div className="motto-big">No tape, no flimsy cardboard, no mess.</div>
+            <div className="motto-sub">You're making the simple, clean, and easy choice.</div>
+          </div>
         </div>
       </div>
 
@@ -207,10 +206,10 @@ export default function BookPage() {
         <div className="form-section">
           <div className="form-section-title"><span className="num">1</span> Choose your package</div>
           {Object.entries(PACKAGES).map(([key, p]) => (
-            <label key={key} className="pkg-choice">
+            <label key={key} className={`pkg-choice${key === 'home' ? ' featured' : ''}${pkg === key ? ' selected' : ''}`}>
               <input type="radio" name="package" checked={pkg === key} onChange={() => { setPkg(key); const c = PACKAGES[key].maxExtraTotes; const d = PACKAGES[key].maxExtraDollies; setAddons((a) => ({ ...a, ...(c != null ? { tote: Math.min(a.tote || 0, c) } : {}), ...(d != null ? { dolly: Math.min(a.dolly || 0, d) } : {}) })); }} />
               <div className="info">
-                <div className="title-row"><span className="title">{p.name}</span><span className="price">${p.price}</span></div>
+                <div className="title-row"><span className="title">{p.name}{key === 'home' && <span className="most-booked">Most booked</span>}</span><span className="price">${p.price}</span></div>
                 <div className="desc">{p.desc}</div>
               </div>
             </label>
@@ -309,22 +308,22 @@ export default function BookPage() {
 
         <div className="form-section">
           <div className="consent-box">
-            <h4>Before you submit, please read</h4>
+            <h4>Before you submit</h4>
             <ul>
-              {feeSummaryLines().map((t) => (
-                <li key={t}>{t}</li>
-              ))}
+              <li><strong>Your card is saved, not charged.</strong> We charge the rental only after we review and approve your request.</li>
+              <li><strong>Cancel or reschedule free</strong> with {POLICY.cancelFreeHours}+ hours' notice before delivery. <a href="/fees" target="_blank" rel="noopener">Details</a></li>
+              <li>Have everything emptied and ready on pickup day. Late, missing or damaged equipment carries fees. <a href="/fees" target="_blank" rel="noopener">See all fees</a></li>
             </ul>
           </div>
           <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 13, lineHeight: 1.6, color: '#4c4a42' }}>
             <input type="checkbox" checked={agreedToTerms} onChange={(e) => setAgreedToTerms(e.target.checked)} style={{ marginTop: 3 }} />
             <span>
-              I have read and understand the fees and timelines above and the{' '}
+              I have read and understand the{' '}
+              <a href="/fees" target="_blank" rel="noopener" style={{ textDecoration: 'underline' }}>Fees &amp; Charges</a>,{' '}
               <a href="/terms" target="_blank" rel="noopener" style={{ textDecoration: 'underline' }}>Terms &amp; Conditions</a> and{' '}
               <a href="/privacy" target="_blank" rel="noopener" style={{ textDecoration: 'underline' }}>Privacy Policy</a>.
               I authorize Midland Moving Box Co. to securely store my card with Square, to charge it for this
-              rental once confirmed, and to charge it for any extension I approve and for the damage, missing
-              item, not-ready, late-cancellation and other fees described above.
+              rental once confirmed, and to charge it for any extension I approve and for the fees described on the Fees &amp; Charges page.
             </span>
           </label>
         </div>

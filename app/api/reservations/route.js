@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
 import { supabaseAdmin } from '../../../lib/supabaseAdmin';
-import { PACKAGES, computeTotals } from '../../../lib/constants';
+import { PACKAGES, computeTotals, addonLimitError } from '../../../lib/constants';
 import { surchargeFor } from '../../../lib/zones';
 import { POLICY } from '../../../lib/policy';
 import { createCustomer, createCardOnFile } from '../../../lib/square';
@@ -40,6 +40,9 @@ export async function POST(request) {
     if (!zones.from.zip || !zones.to.zip) {
       return NextResponse.json({ error: 'Please include the ZIP code in both addresses' }, { status: 400 });
     }
+
+    const limitErr = addonLimitError(pkg, addons);
+    if (limitErr) return NextResponse.json({ error: limitErr }, { status: 400 });
 
     const { subtotal, tax, total, cleanAddons, totes } = computeTotals(pkg, addons, zones.knownTotal);
 

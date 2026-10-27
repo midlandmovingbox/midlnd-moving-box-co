@@ -121,11 +121,13 @@ export default function Home() {
             <div className="section-eyebrow">Service area</div>
             <h2 className="section-title">Where we deliver.</h2>
             <div className="area-box">
-              <div className="zone-row"><span>Midland &amp; Odessa<br /><span className="mono" style={{ fontSize: 11, color: '#8a8676' }}>79701–79705, 79707, 79712</span></span><span className="fee">Free delivery</span></div>
-              <div className="zone-row"><span>Nearby<br /><span className="mono" style={{ fontSize: 11, color: '#8a8676' }}>79706, 79758, 79765, 79782</span></span><span className="fee">+$20 each way</span></div>
-              <div className="zone-row"><span>Outlying<br /><span className="mono" style={{ fontSize: 11, color: '#8a8676' }}>79749, 79761–79764, 79766, 79783</span></span><span className="fee">+$30 each way</span></div>
+              <div className="zone-row"><span>Select Midland &amp; Odessa areas</span><span className="fee">Free delivery &amp; pickup</span></div>
+              <div className="zone-row"><span>Nearby and outlying areas</span><span className="fee">Travel charges may apply</span></div>
               <div className="zone-row"><span>Anywhere else</span><span className="fee">We'll quote you</span></div>
             </div>
+            <p style={{ fontSize: 14, lineHeight: 1.6, color: '#4c4a42', marginTop: 14 }}>
+              Enter your addresses on the reservation form and you'll see your exact delivery fee, if any, before you submit.
+            </p>
           </div>
           <div>
             <div className="section-eyebrow">How payment works</div>
@@ -173,6 +175,8 @@ export default function Home() {
               <a href="/privacy" style={{ textDecoration: 'underline' }}>Privacy Policy</a>
               {' · '}
               <a href="/terms" style={{ textDecoration: 'underline' }}>Terms &amp; Conditions</a>
+              {' · '}
+              <a href="/fees" style={{ textDecoration: 'underline' }}>Fees &amp; Charges</a>
             </span>
           </div>
         </div>

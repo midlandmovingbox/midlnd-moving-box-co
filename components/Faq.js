@@ -19,7 +19,8 @@ export const FAQ_ITEMS = [
   },
   {
     q: 'What if something is damaged or lost?',
-    a: `Missing or damaged/unusable totes are ${usd(POLICY.toteMissing)} each, missing or damaged dollies are ${usd(POLICY.dollyMissing)} each, and very dirty totes are ${usd(POLICY.toteDirty)} each, plus sales tax. We photograph equipment before loading it, count at pickup, and email you an itemized receipt for any charges.`,
+    a: "Normal wear is expected and never charged. Fees for missing, damaged or very dirty equipment are listed on our Fees & Charges page, and we email you an itemized receipt for any charge.",
+    link: { href: '/fees', label: 'See Fees & Charges' },
   },
   {
     q: 'Can I cancel or reschedule?',
@@ -49,7 +50,7 @@ export default function Faq() {
           {FAQ_ITEMS.map((item) => (
             <details className="faq-item" key={item.q}>
               <summary>{item.q}</summary>
-              <p>{item.a}</p>
+              <p>{item.a}{item.link && <>{' '}<a href={item.link.href} style={{ textDecoration: 'underline' }}>{item.link.label}</a></>}</p>
             </details>
           ))}
         </div>

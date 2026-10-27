@@ -82,7 +82,7 @@ export default function Terms() {
         <li>Missing or damaged/unusable tote: {usd(p.toteMissing)} each.</li>
         <li>Missing or damaged dolly: {usd(p.dollyMissing)} each.</li>
         <li>Very dirty tote (beyond normal use, needing special cleaning): {usd(p.toteDirty)} each.</li>
-        <li>Normal wear is expected and is not charged.</li>
+        <li>Normal wear is expected and is not charged. See also our <a href="/fees" style={{ textDecoration: 'underline' }}>Fees &amp; Charges</a> page.</li>
       </ul>
 
       <h2>9. When and how we charge</h2>
@@ -101,20 +101,30 @@ export default function Terms() {
         <li>Tell us by replying to your confirmation email or by contacting us at midlandmovingbox@gmail.com.</li>
       </ul>
 
-      <h2>11. How to use the equipment</h2>
+      <h2>11. Proper use of the equipment</h2>
+      <p>You agree to use the equipment only as follows, and to make sure everyone who uses it on your behalf does too:</p>
       <ul>
-        <li>Use the totes for household goods. Do not store hazardous materials, food waste, animals, or anything illegal in them.</li>
-        <li>Do not overload totes or dollies beyond their rated capacity, and keep equipment out of standing water and away from open flame.</li>
-        <li>Do not sublet, sell or lend the equipment to others.</li>
+        <li>Use totes only to pack, carry and temporarily store ordinary household goods. Do not store hazardous, flammable, corrosive or illegal materials, food waste, perishable food, animals, or anything that could leak, spill or damage the equipment.</li>
+        <li>Never overload a tote or dolly. Keep loads at a weight that you and anyone helping can lift and move safely, and within what the equipment can safely hold. Use proper lifting technique and get help with heavy items.</li>
+        <li>Stack totes only on level, stable ground and only as high as is safe. Secure stacks and loads before moving them, and keep them out of walkways, stairs and doorways.</li>
+        <li>Use dollies only as designed, with a stable, balanced load. Take extra care on stairs, ramps, curbs, uneven or wet surfaces, and when loading or unloading vehicles. Do not ride on, climb on, or push people on dollies or totes.</li>
+        <li>Do not use totes as seats, steps, ladders, work platforms or toys, and do not allow children or pets to play in, on or around the equipment.</li>
+        <li>Keep equipment clean and dry, out of standing water, extreme weather, direct flame and heat sources, and do not drill, cut, paint, write on, or modify it in any way.</li>
+        <li>Do not sublet, sell, lend, give away or move the equipment to any address other than the ones in your reservation without telling us.</li>
+        <li>Do not use the equipment for any purpose other than the one it was designed for.</li>
       </ul>
 
-      <h2>12. Risk and liability</h2>
-      <p>
-        You use the equipment at your own risk. To the fullest extent allowed by Texas law, we are not
-        responsible for damage to or loss of your belongings, injuries from the use or misuse of equipment, or
-        indirect or consequential losses. Our total liability for any claim is limited to the amount you paid us
-        for the rental. Nothing in these terms limits liability that cannot be limited by law.
-      </p>
+      <h2>12. Risk, responsibility and liability</h2>
+      <ul>
+        <li><strong>Assumption of risk.</strong> Moving and lifting involve inherent risks, including strains, falls, cuts, crushing and other injuries, and damage to property. You voluntarily assume all risks arising from the delivery, possession, loading, carrying, stacking, storage, transport, use and return of the equipment, by you and by anyone who uses it or is present with it.</li>
+        <li><strong>You are responsible.</strong> From delivery until we pick the equipment up, you are solely responsible for the equipment and for its use, its contents, and all results of its use, including any property damage, loss or theft, bodily injury or death, whether to you, to your household, helpers, movers, guests, children, pets, or any other person or property.</li>
+        <li><strong>Release.</strong> To the fullest extent allowed by Texas law, you release and forever discharge Midland Moving Box Co., its owner(s), and its employees, contractors and agents from any and all claims, demands, losses, damages, costs and liability of any kind, including those arising from the use or misuse of the equipment, from our delivery or pickup, from the condition of the equipment, and including claims based on alleged negligence, other than claims arising from our gross negligence or intentional misconduct.</li>
+        <li><strong>Indemnity.</strong> You agree to defend, indemnify and hold harmless Midland Moving Box Co. and its owner(s), employees, contractors and agents against any claim, demand, loss, damage, cost or expense (including reasonable attorneys' fees) brought by or on behalf of anyone, including you, your household, your helpers or movers, or any third party, arising out of or related to your possession or use of the equipment, your breach of these terms, or the contents of the equipment.</li>
+        <li><strong>Your belongings.</strong> We are not responsible for the condition, damage, loss or theft of anything you pack in, on or with our equipment, including damage caused by weather, moisture, breakage, shifting or tipping loads, or equipment failure. You are responsible for insuring your own belongings.</li>
+        <li><strong>As-is equipment; no warranty.</strong> The equipment is provided "as is." To the fullest extent allowed by law, we make no warranties of any kind, express or implied, including fitness for a particular purpose. Inspect the equipment when it is delivered and stop using anything that looks damaged or unsafe, and tell us.</li>
+        <li><strong>Limit on our liability.</strong> To the fullest extent allowed by Texas law, we are not liable for indirect, incidental, consequential or special losses of any kind. In any case where we are found liable, our total liability is limited to the amount you paid us for the rental in question.</li>
+        <li>Nothing in these terms limits liability that cannot be limited by law. If any part of this section is found unenforceable, the rest stays in effect.</li>
+      </ul>
 
       <h2>13. Changes to these terms</h2>
       <p>
