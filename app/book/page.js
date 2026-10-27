@@ -95,6 +95,8 @@ export default function BookPage() {
       let n = Math.max(0, (a[id] || 0) + delta);
       const cap = pkg ? PACKAGES[pkg].maxExtraTotes : null;
       if (id === 'tote' && cap != null) n = Math.min(n, cap);
+      const dcap = pkg ? PACKAGES[pkg].maxExtraDollies : null;
+      if (id === 'dolly' && dcap != null) n = Math.min(n, dcap);
       return { ...a, [id]: n };
     });
   }
@@ -206,7 +208,7 @@ export default function BookPage() {
           <div className="form-section-title"><span className="num">1</span> Choose your package</div>
           {Object.entries(PACKAGES).map(([key, p]) => (
             <label key={key} className="pkg-choice">
-              <input type="radio" name="package" checked={pkg === key} onChange={() => { setPkg(key); const c = PACKAGES[key].maxExtraTotes; if (c != null) setAddons((a) => ({ ...a, tote: Math.min(a.tote || 0, c) })); }} />
+              <input type="radio" name="package" checked={pkg === key} onChange={() => { setPkg(key); const c = PACKAGES[key].maxExtraTotes; const d = PACKAGES[key].maxExtraDollies; setAddons((a) => ({ ...a, ...(c != null ? { tote: Math.min(a.tote || 0, c) } : {}), ...(d != null ? { dolly: Math.min(a.dolly || 0, d) } : {}) })); }} />
               <div className="info">
                 <div className="title-row"><span className="title">{p.name}</span><span className="price">${p.price}</span></div>
                 <div className="desc">{p.desc}</div>
@@ -238,7 +240,7 @@ export default function BookPage() {
           {!pkg && <div className="addon-lock">Add-ons are available with a package. Choose a package above first.</div>}
           {ADDONS.map((a) => (
             <div className="addon-row" key={a.id}>
-              <span className="name">{a.name}<span className="price">{money(a.price)}</span>{a.id === 'tote' && pkg && PACKAGES[pkg].maxExtraTotes != null && <span className="price"> · up to {PACKAGES[pkg].maxExtraTotes} with this package</span>}</span>
+              <span className="name">{a.name}<span className="price">{money(a.price)}</span>{a.id === 'dolly' && pkg && PACKAGES[pkg].maxExtraDollies != null && <span className="price"> · up to {PACKAGES[pkg].maxExtraDollies} with this package</span>}{a.id === 'tote' && pkg && PACKAGES[pkg].maxExtraTotes != null && <span className="price"> · up to {PACKAGES[pkg].maxExtraTotes} with this package</span>}</span>
               <div className="stepper">
                 <button type="button" disabled={!pkg} onClick={() => changeAddon(a.id, -1)}>−</button>
                 <span className="count">{addons[a.id] || 0}</span>
