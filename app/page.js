@@ -82,7 +82,7 @@ export default function Home() {
 
       <section className="packages" id="packages">
         <div className="wrap">
-          <div className="section-eyebrow">Cargo manifest</div>
+          <div className="section-eyebrow">Pick your rental</div>
           <h2 className="section-title">Priced by move size, not by guesswork.</h2>
           <div className="pkg-grid">
             <div className="pkg-card">
