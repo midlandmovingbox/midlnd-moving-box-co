@@ -5,11 +5,18 @@ export const metadata = {
   description: 'Rental terms, fees and policies for Midland Moving Box Co.',
 };
 
+import SiteLogo from '../../components/SiteLogo';
+
 export default function Terms() {
   const p = POLICY;
   return (
     <main className="legal-page">
-      <a href="/" style={{ fontSize: 13, textDecoration: 'underline' }}>← Back to Midland Moving Box Co.</a>
+      <div style={{ background: 'var(--ink)', display: 'inline-block', padding: '10px 14px', borderRadius: 6 }}>
+        <SiteLogo height={44} />
+      </div>
+      <div style={{ marginTop: 14 }}>
+        <a href="/" style={{ fontSize: 14, textDecoration: 'underline' }}>← Back to home</a>
+      </div>
       <h1 style={{ marginTop: 16 }}>Terms &amp; Conditions</h1>
       <div className="updated">Last updated: October 27, 2026</div>
 

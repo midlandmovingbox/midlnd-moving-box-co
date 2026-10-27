@@ -3,10 +3,17 @@ export const metadata = {
   description: 'How Midland Moving Box Co. collects, uses and protects your information.',
 };
 
+import SiteLogo from '../../components/SiteLogo';
+
 export default function Privacy() {
   return (
     <main className="legal-page">
-      <a href="/" style={{ fontSize: 13, textDecoration: 'underline' }}>← Back to Midland Moving Box Co.</a>
+      <div style={{ background: 'var(--ink)', display: 'inline-block', padding: '10px 14px', borderRadius: 6 }}>
+        <SiteLogo height={44} />
+      </div>
+      <div style={{ marginTop: 14 }}>
+        <a href="/" style={{ fontSize: 14, textDecoration: 'underline' }}>← Back to home</a>
+      </div>
       <h1 style={{ marginTop: 16 }}>Privacy Policy</h1>
       <div className="updated">Last updated: October 27, 2026</div>
 

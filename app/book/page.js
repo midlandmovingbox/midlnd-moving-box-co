@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { surchargeFor } from '../../lib/zones';
 import { feeSummaryLines } from '../../lib/policy';
 import AddressInput from '../../components/AddressInput';
+import SiteLogo from '../../components/SiteLogo';
 
 const PACKAGES = {
   small: { name: 'Small Move', desc: '20 totes · 1 dolly · 1 bedroom/apartment', price: 109 },
@@ -187,7 +188,9 @@ export default function BookPage() {
     <>
       <div className="book-header">
         <div className="wrap">
-          <a className="back-link" href="/">← Back to Midland Moving Box Co.</a>
+          <SiteLogo height={56} />
+          <div style={{ height: 14 }} />
+          <a className="back-link" href="/">← Back to home</a>
           <h1>Reserve your totes</h1>
           <p>We'll securely save your card and review your dates before anything is charged.</p>
         </div>

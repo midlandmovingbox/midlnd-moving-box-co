@@ -1,4 +1,6 @@
 import Faq from '../components/Faq';
+import SiteLogo from '../components/SiteLogo';
+import ToteStack from '../components/ToteStack';
 // ONE-STEP PHONE SWAP: once you pick a number, fill in both lines below.
 // Example: PHONE_DISPLAY = '(432) 555-1234'  and  PHONE_DIGITS = '4325551234'
 // While PHONE_DISPLAY is empty, no phone number shows on the site.
@@ -10,7 +12,7 @@ export default function Home() {
     <>
       <div className="topbar">
         <div className="wrap topbar-inner">
-          <div className="brand">MIDLAND MOVING BOX CO. <span className="tag">MDL · ODA</span></div>
+          <SiteLogo height={50} />
           <nav className="nav">
             <a href="#packages">Packages</a>
             <a href="#how">How it works</a>
@@ -26,33 +28,33 @@ export default function Home() {
             <div>
               <div className="eyebrow-mono">Delivered · Midland &amp; Odessa, TX</div>
               <h1>Skip the cardboard.<span className="thin">Heavy-duty moving totes, delivered to your door.</span></h1>
-              <p className="sub">We drop 80-quart totes and a dolly at your place, you pack and move on your schedule, we pick the empties back up.</p>
+              <p className="sub">Reusable moving totes delivered to your door. We deliver. You pack. You move. We pick up.</p>
               <div className="hero-actions">
                 <a className="btn-primary" href="/book">Reserve in 2 Minutes →</a>
                 <a className="btn-ghost" href="#packages">See packages</a>
               </div>
               <div className="hero-note" style={{ marginTop: 18 }}>Free delivery &amp; pickup in Midland &amp; Odessa · $109 to start</div>
             </div>
+            <div className="hero-visual">
+              <ToteStack />
             <div className="ticket">
-              <div className="stamp">Ready<br />to move</div>
               <div className="ticket-head">
-                <div className="to">Deliver To<br /><strong style={{ color: 'var(--ink)', fontFamily: "'IBM Plex Sans'", fontSize: 13 }}>Your Address, Midland TX</strong></div>
+                <div className="to">Deliver To<br /><strong style={{ color: 'var(--ink)', fontFamily: "'Barlow'", fontSize: 14 }}>Your Address, Midland TX</strong></div>
                 <div className="no">Ticket No.<br />MMB-0472</div>
               </div>
               <div className="ticket-body">
                 <div className="ticket-row"><span className="k">Package</span><span className="v">Home Move</span></div>
                 <div className="ticket-row"><span className="k">Contents</span><span className="v">40 totes · 2 dollies</span></div>
                 <div className="ticket-row"><span className="k">Delivery</span><span className="v">Mon, 8:00–10:00a</span></div>
-                <div className="ticket-row"><span className="k">Pickup</span><span className="v">Following Mon</span></div>
               </div>
               <div className="ticket-price">
                 <div><div className="label">Total due</div><div className="amt">$179</div></div>
                 <div className="label">Card on file<br />via Square</div>
               </div>
             </div>
+            </div>
           </div>
         </div>
-        <div className="perf" style={{ marginTop: 56 }}></div>
       </section>
 
       <section className="how" id="how">
@@ -62,11 +64,11 @@ export default function Home() {
           <div className="how-row">
             <div className="how-step">
               <div className="idx">STEP 01 — WE DELIVER</div>
-              <h3>Totes show up packed flat</h3>
+              <h3>Totes show up at your door</h3>
               <p>We bring your totes and dolly straight to your door on the morning you pick.</p>
             </div>
             <div className="how-step">
-              <div className="idx">STEP 02 — YOU MOVE</div>
+              <div className="idx">STEP 02 — YOU PACK &amp; MOVE</div>
               <h3>Pack, load, move</h3>
               <p>Two full weeks with your totes. They stack clean and won't blow out like a wet box.</p>
             </div>
@@ -93,7 +95,7 @@ export default function Home() {
               <a className="pkg-cta" href="/book?pkg=small">Reserve Small Move</a>
             </div>
             <div className="pkg-card featured">
-              <div className="pkg-badge">Most booked</div>
+              <div className="pkg-badge">Most popular</div>
               <div className="pkg-tab">2–3 Bedrooms</div>
               <div className="pkg-name">Home Move</div>
               <div className="pkg-price">$179<sup>/ 2 wks</sup></div>
@@ -152,8 +154,8 @@ export default function Home() {
         <div className="wrap">
           <div className="foot-grid">
             <div>
-              <div className="brand" style={{ color: 'var(--paper)', fontSize: 15 }}>MIDLAND MOVING BOX CO.</div>
-              <div style={{ marginTop: 8, color: '#a9a495' }}>Reusable moving totes, delivered and picked up.<br />Serving Midland &amp; Odessa, TX.</div>
+              <div className="foot-logo"><SiteLogo height={92} /></div>
+              <div style={{ marginTop: 4, color: '#c9c5b8', fontSize: 15 }}>Reusable moving totes, delivered and picked up.<br />Serving Midland &amp; Odessa, TX.</div>
             </div>
             <div>
               <div className="mono" style={{ color: 'var(--tote)', textTransform: 'uppercase', fontSize: 11, letterSpacing: '0.06em', marginBottom: 8 }}>Contact</div>
