@@ -18,6 +18,7 @@ export default function AdminPage() {
   const [filter, setFilter] = useState('requested');
   const [busyId, setBusyId] = useState(null);
   const [chargeDrafts, setChargeDrafts] = useState({});
+  const [refundDrafts, setRefundDrafts] = useState({});
   const [listError, setListError] = useState('');
 
   async function loadReservations() {
@@ -116,6 +117,51 @@ export default function AdminPage() {
     setBusyId(null);
   }
 
+  async function markReturned(id) {
+    if (!confirm('Mark this rental as returned?')) return;
+    setBusyId(id);
+    const res = await fetch('/api/admin/return', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ reservationId: id }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      setReservations((rs) => rs.map((r) => (r.id === id ? { ...data.reservation, extra_charges: r.extra_charges } : r)));
+    } else {
+      alert(data.error || 'Could not mark returned');
+    }
+    setBusyId(null);
+  }
+
+  async function submitRefund(r, paymentOptions) {
+    const draft = refundDrafts[r.id] || {};
+    const option = paymentOptions.find((o) => o.id === (draft.paymentId || paymentOptions[0]?.id));
+    if (!option) return;
+    const amount = draft.amount ? parseFloat(draft.amount) : option.amount;
+    if (!amount || amount <= 0) {
+      alert('Enter a valid amount');
+      return;
+    }
+    if (!confirm(`Refund ${money(amount)} to the customer's card (${option.label})?`)) return;
+    setBusyId(r.id);
+    const res = await fetch('/api/admin/refund', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ reservationId: r.id, paymentId: option.id, amount, reason: draft.reason }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      setReservations((rs) =>
+        rs.map((x) => (x.id === r.id ? { ...x, extra_charges: [data.charge, ...x.extra_charges] } : x))
+      );
+      setRefundDrafts((d) => ({ ...d, [r.id]: { amount: '', reason: '' } }));
+    } else {
+      alert(data.error || 'Could not process refund');
+    }
+    setBusyId(null);
+  }
+
   if (checkingAuth) return null;
 
   if (!loggedIn) {
@@ -144,7 +190,7 @@ export default function AdminPage() {
       </div>
 
       <div className="status-tabs">
-        {['requested', 'confirmed', 'declined', 'all'].map((s) => (
+        {['requested', 'confirmed', 'returned', 'declined', 'all'].map((s) => (
           <button key={s} className={`status-tab ${filter === s ? 'active' : ''}`} onClick={() => setFilter(s)}>
             {s} {s !== 'all' && `(${reservations.filter((r) => r.status === s).length})`}
           </button>
@@ -194,37 +240,86 @@ export default function AdminPage() {
             </div>
           )}
 
-          {r.status === 'confirmed' && (
-            <>
-              <div className="charge-form">
-                <input
-                  className="amount"
-                  type="number"
-                  step="0.01"
-                  placeholder="Amount"
-                  value={chargeDrafts[r.id]?.amount || ''}
-                  onChange={(e) => setChargeDrafts((d) => ({ ...d, [r.id]: { ...d[r.id], amount: e.target.value } }))}
-                />
-                <input
-                  className="note"
-                  type="text"
-                  placeholder="Reason (extra week, damage, etc.)"
-                  value={chargeDrafts[r.id]?.note || ''}
-                  onChange={(e) => setChargeDrafts((d) => ({ ...d, [r.id]: { ...d[r.id], note: e.target.value } }))}
-                />
-                <button className="btn-charge" disabled={busyId === r.id} onClick={() => submitCharge(r.id)}>
-                  {busyId === r.id ? 'Processing…' : 'Charge card on file'}
-                </button>
-              </div>
-              {r.extra_charges?.length > 0 && (
-                <div className="extra-charges-list">
-                  {r.extra_charges.map((c) => (
-                    <div key={c.id}>+ {money(c.amount)} — {c.note || 'no note'} ({new Date(c.created_at).toLocaleDateString()})</div>
-                  ))}
+          {(r.status === 'confirmed' || r.status === 'returned') && (() => {
+            const paymentOptions = [
+              ...(r.square_payment_id ? [{ id: r.square_payment_id, amount: Number(r.total), label: `Rental ${money(r.total)}` }] : []),
+              ...r.extra_charges
+                .filter((c) => Number(c.amount) > 0 && c.square_payment_id)
+                .map((c) => ({ id: c.square_payment_id, amount: Number(c.amount), label: `${c.note || 'Extra charge'} ${money(c.amount)}` })),
+            ];
+            const rd = refundDrafts[r.id] || {};
+            return (
+              <>
+                {r.status === 'confirmed' && (
+                  <div className="res-actions">
+                    <button className="btn-decline" disabled={busyId === r.id} onClick={() => markReturned(r.id)}>
+                      Mark returned
+                    </button>
+                  </div>
+                )}
+                <div className="charge-form">
+                  <input
+                    className="amount"
+                    type="number"
+                    step="0.01"
+                    placeholder="Amount"
+                    value={chargeDrafts[r.id]?.amount || ''}
+                    onChange={(e) => setChargeDrafts((d) => ({ ...d, [r.id]: { ...d[r.id], amount: e.target.value } }))}
+                  />
+                  <input
+                    className="note"
+                    type="text"
+                    placeholder="Reason (extra week, damage, etc.)"
+                    value={chargeDrafts[r.id]?.note || ''}
+                    onChange={(e) => setChargeDrafts((d) => ({ ...d, [r.id]: { ...d[r.id], note: e.target.value } }))}
+                  />
+                  <button className="btn-charge" disabled={busyId === r.id} onClick={() => submitCharge(r.id)}>
+                    {busyId === r.id ? 'Processing…' : 'Charge card on file'}
+                  </button>
                 </div>
-              )}
-            </>
-          )}
+                {paymentOptions.length > 0 && (
+                  <div className="charge-form">
+                    <select
+                      className="note"
+                      value={rd.paymentId || paymentOptions[0].id}
+                      onChange={(e) => setRefundDrafts((d) => ({ ...d, [r.id]: { ...d[r.id], paymentId: e.target.value } }))}
+                    >
+                      {paymentOptions.map((o) => (
+                        <option key={o.id} value={o.id}>{o.label}</option>
+                      ))}
+                    </select>
+                    <input
+                      className="amount"
+                      type="number"
+                      step="0.01"
+                      placeholder="Full"
+                      value={rd.amount || ''}
+                      onChange={(e) => setRefundDrafts((d) => ({ ...d, [r.id]: { ...d[r.id], amount: e.target.value } }))}
+                    />
+                    <input
+                      className="note"
+                      type="text"
+                      placeholder="Refund reason (optional)"
+                      value={rd.reason || ''}
+                      onChange={(e) => setRefundDrafts((d) => ({ ...d, [r.id]: { ...d[r.id], reason: e.target.value } }))}
+                    />
+                    <button className="btn-decline" disabled={busyId === r.id} onClick={() => submitRefund(r, paymentOptions)}>
+                      Refund
+                    </button>
+                  </div>
+                )}
+                {r.extra_charges?.length > 0 && (
+                  <div className="extra-charges-list">
+                    {r.extra_charges.map((c) => (
+                      <div key={c.id}>
+                        {Number(c.amount) < 0 ? '−' : '+'} {money(Math.abs(c.amount))} — {(c.note || 'no note').replace(/ \[[^\]]*\]$/, '')} ({new Date(c.created_at).toLocaleDateString()})
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            );
+          })()}
         </div>
       ))}
     </div>

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { isAdminRequest } from '../../../../lib/adminAuth';
 import { supabaseAdmin } from '../../../../lib/supabaseAdmin';
+import { emailDeclined } from '../../../../lib/email';
 
 export async function POST(request) {
   if (!isAdminRequest(request)) {
@@ -16,12 +17,15 @@ export async function POST(request) {
     .from('reservations')
     .update({ status: 'declined' })
     .eq('id', reservationId)
+    .eq('status', 'requested')
     .select()
     .single();
 
   if (error) {
     return NextResponse.json({ error: 'Could not update reservation' }, { status: 500 });
   }
+
+  await emailDeclined(data);
 
   return NextResponse.json({ success: true, reservation: data });
 }

@@ -25,6 +25,9 @@ export async function POST(request) {
     if (fetchError || !reservation) {
       return NextResponse.json({ error: 'Reservation not found' }, { status: 404 });
     }
+    if (!['confirmed', 'returned'].includes(reservation.status)) {
+      return NextResponse.json({ error: 'Only confirmed reservations can receive extra charges' }, { status: 400 });
+    }
     if (!reservation.square_card_id) {
       return NextResponse.json({ error: 'No card on file for this reservation' }, { status: 400 });
     }

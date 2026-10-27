@@ -249,7 +249,7 @@ export default function BookPage() {
             </div>
             <div className="field">
               <label>Email</label>
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@email.com" />
+              <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@email.com" />
             </div>
           </div>
           <div className="field">
@@ -297,9 +297,6 @@ export default function BookPage() {
         <button type="submit" className="submit-btn" disabled={submitting}>
           {submitting ? 'Submitting…' : 'Submit Reservation Request'}
         </button>
-        <p className="summary-note" style={{ textAlign: 'center', marginTop: 10 }}>
-          Sandbox test card: 4111 1111 1111 1111, any future expiry, any CVC, any ZIP.
-        </p>
       </form>
     </>
   );

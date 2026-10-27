@@ -3,6 +3,7 @@ import { randomUUID } from 'crypto';
 import { isAdminRequest } from '../../../../lib/adminAuth';
 import { supabaseAdmin } from '../../../../lib/supabaseAdmin';
 import { chargeStoredCard } from '../../../../lib/square';
+import { emailConfirmed } from '../../../../lib/email';
 
 export async function POST(request) {
   if (!isAdminRequest(request)) {
@@ -50,6 +51,8 @@ export async function POST(request) {
         { status: 500 }
       );
     }
+
+    await emailConfirmed(updated);
 
     return NextResponse.json({ success: true, reservation: updated });
   } catch (err) {

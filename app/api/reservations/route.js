@@ -3,6 +3,7 @@ import { randomUUID } from 'crypto';
 import { supabaseAdmin } from '../../../lib/supabaseAdmin';
 import { PACKAGES, computeTotals } from '../../../lib/constants';
 import { createCustomer, createCardOnFile } from '../../../lib/square';
+import { emailRequestReceived, emailOwnerNewRequest } from '../../../lib/email';
 
 export async function POST(request) {
   try {
@@ -26,8 +27,8 @@ export async function POST(request) {
     if (!sourceId || !pkg || !PACKAGES[pkg] || !deliveryDate || !pickupDate) {
       return NextResponse.json({ error: 'Missing required booking fields' }, { status: 400 });
     }
-    if (!name || !phone || !address) {
-      return NextResponse.json({ error: 'Name, phone, and address are required' }, { status: 400 });
+    if (!name || !phone || !address || !email) {
+      return NextResponse.json({ error: 'Name, phone, email, and address are required' }, { status: 400 });
     }
     if (!agreedToTerms) {
       return NextResponse.json({ error: 'You must authorize storing your card to submit a request' }, { status: 400 });
@@ -80,6 +81,8 @@ export async function POST(request) {
         { status: 500 }
       );
     }
+
+    await Promise.all([emailRequestReceived(reservation), emailOwnerNewRequest(reservation)]);
 
     return NextResponse.json({ success: true, reservationId: reservation.id });
   } catch (err) {

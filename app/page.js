@@ -1,3 +1,9 @@
+// ONE-STEP PHONE SWAP: once you pick a number, fill in both lines below.
+// Example: PHONE_DISPLAY = '(432) 555-1234'  and  PHONE_DIGITS = '4325551234'
+// While PHONE_DISPLAY is empty, no phone number shows on the site.
+const PHONE_DISPLAY = '';
+const PHONE_DIGITS = '';
+
 export default function Home() {
   return (
     <>
@@ -148,8 +154,8 @@ export default function Home() {
             <div>
               <div className="mono" style={{ color: 'var(--tote)', textTransform: 'uppercase', fontSize: 11, letterSpacing: '0.06em', marginBottom: 8 }}>Contact</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6, color: '#c9c5b8' }}>
-                <a href="tel:4325550142">(432) 555-0142</a>
-                <a href="mailto:hello@midlandmovingbox.com">hello@midlandmovingbox.com</a>
+                {PHONE_DISPLAY && <a href={`tel:${PHONE_DIGITS}`}>{PHONE_DISPLAY}</a>}
+                <a href="mailto:midlandmovingbox@gmail.com">midlandmovingbox@gmail.com</a>
               </div>
             </div>
           </div>
