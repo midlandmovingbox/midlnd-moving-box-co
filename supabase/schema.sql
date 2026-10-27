@@ -46,3 +46,18 @@ create index if not exists charges_reservation_idx on charges (reservation_id);
 -- server-side service role key, which bypasses RLS - no public policies needed.
 alter table reservations enable row level security;
 alter table charges enable row level security;
+
+-- Added later: separate moving-from / moving-to addresses
+alter table reservations add column if not exists from_address text;
+alter table reservations add column if not exists to_address text;
+
+-- Added later: zone surcharges and manual quotes for out-of-area addresses
+alter table reservations add column if not exists delivery_surcharge numeric not null default 0;
+alter table reservations add column if not exists pickup_surcharge numeric not null default 0;
+alter table reservations add column if not exists needs_quote boolean not null default false;
+alter table reservations add column if not exists quote_fee numeric not null default 0;
+alter table reservations add column if not exists quote_sent_at timestamptz;
+
+-- Added later: why a request was declined
+alter table reservations add column if not exists decline_reason text;
+alter table reservations add column if not exists decline_note text;

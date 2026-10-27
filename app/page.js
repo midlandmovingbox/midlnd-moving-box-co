@@ -30,7 +30,7 @@ export default function Home() {
                 <a className="btn-primary" href="/book">Reserve in 2 Minutes →</a>
                 <a className="btn-ghost" href="#packages">See packages</a>
               </div>
-              <div className="hero-note" style={{ marginTop: 18 }}>Free delivery &amp; pickup inside Midland city limits · $109 to start</div>
+              <div className="hero-note" style={{ marginTop: 18 }}>Free delivery &amp; pickup in Midland &amp; Odessa · $109 to start</div>
             </div>
             <div className="ticket">
               <div className="stamp">Ready<br />to move</div>
@@ -88,7 +88,7 @@ export default function Home() {
               <div className="pkg-name">Small Move</div>
               <div className="pkg-price">$109<sup>/ 2 wks</sup></div>
               <div className="pkg-desc">Enough for a studio or one-bedroom, easy.</div>
-              <ul className="pkg-list"><li>20 heavy-duty totes</li><li>1 tote dolly</li><li>Free Midland delivery</li></ul>
+              <ul className="pkg-list"><li>20 heavy-duty totes</li><li>1 tote dolly</li><li>Free Midland &amp; Odessa delivery</li></ul>
               <a className="pkg-cta" href="/book?pkg=small">Reserve Small Move</a>
             </div>
             <div className="pkg-card featured">
@@ -97,7 +97,7 @@ export default function Home() {
               <div className="pkg-name">Home Move</div>
               <div className="pkg-price">$179<sup>/ 2 wks</sup></div>
               <div className="pkg-desc">The one most Midland households book.</div>
-              <ul className="pkg-list"><li>40 heavy-duty totes</li><li>2 tote dollies</li><li>Free Midland delivery</li></ul>
+              <ul className="pkg-list"><li>40 heavy-duty totes</li><li>2 tote dollies</li><li>Free Midland &amp; Odessa delivery</li></ul>
               <a className="pkg-cta" href="/book?pkg=home">Reserve Home Move</a>
             </div>
             <div className="pkg-card">
@@ -105,7 +105,7 @@ export default function Home() {
               <div className="pkg-name">Big Move</div>
               <div className="pkg-price">$239<sup>/ 2 wks</sup></div>
               <div className="pkg-desc">For the house that's been collecting years of stuff.</div>
-              <ul className="pkg-list"><li>60 heavy-duty totes</li><li>3 tote dollies</li><li>Free Midland delivery</li></ul>
+              <ul className="pkg-list"><li>60 heavy-duty totes</li><li>3 tote dollies</li><li>Free Midland &amp; Odessa delivery</li></ul>
               <a className="pkg-cta" href="/book?pkg=big">Reserve Big Move</a>
             </div>
           </div>
@@ -118,9 +118,10 @@ export default function Home() {
             <div className="section-eyebrow">Service area</div>
             <h2 className="section-title">Where we deliver.</h2>
             <div className="area-box">
-              <div className="zone-row"><span>Midland city limits</span><span className="fee">Free delivery</span></div>
-              <div className="zone-row"><span>Odessa city limits</span><span className="fee">Free delivery</span></div>
-              <div className="zone-row"><span>Outside standard area</span><span className="fee">Call to confirm</span></div>
+              <div className="zone-row"><span>Midland &amp; Odessa<br /><span className="mono" style={{ fontSize: 11, color: '#8a8676' }}>79701–79705, 79712</span></span><span className="fee">Free delivery</span></div>
+              <div className="zone-row"><span>Nearby<br /><span className="mono" style={{ fontSize: 11, color: '#8a8676' }}>79706, 79758, 79765, 79782</span></span><span className="fee">+$20 each way</span></div>
+              <div className="zone-row"><span>Outlying<br /><span className="mono" style={{ fontSize: 11, color: '#8a8676' }}>79749, 79761–79764, 79766, 79783</span></span><span className="fee">+$30 each way</span></div>
+              <div className="zone-row"><span>Anywhere else</span><span className="fee">We'll quote you</span></div>
             </div>
           </div>
           <div>

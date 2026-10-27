@@ -29,6 +29,10 @@ export async function POST(request) {
       return NextResponse.json({ error: `Reservation is already ${reservation.status}` }, { status: 409 });
     }
 
+    if (reservation.needs_quote) {
+      return NextResponse.json({ error: 'Set the out-of-area delivery fee first (Send quote), then approve.' }, { status: 400 });
+    }
+
     const payment = await chargeStoredCard({
       cardId: reservation.square_card_id,
       customerId: reservation.square_customer_id,

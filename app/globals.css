@@ -218,3 +218,17 @@ footer{ background:var(--ink); color:var(--concrete); padding:40px 0 26px; font-
 
 .extra-charges-list{ margin-top:10px; font-size:12.5px; color:#4c4a42; }
 .extra-charges-list div{ padding:4px 0; }
+
+.res-contact{ display:flex; flex-wrap:wrap; gap:6px 16px; margin-top:4px; font-size:14px; }
+.res-contact a{ color:var(--ink); text-decoration:underline; }
+.date-row{ display:flex; align-items:stretch; gap:10px; margin-top:16px; flex-wrap:wrap; }
+.date-block{ flex:1; min-width:160px; background:var(--ink); color:var(--paper); padding:12px 14px; border-radius:var(--radius); }
+.date-block .lbl{ font-family:'IBM Plex Mono'; font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--tote); }
+.date-block .big{ font-family:'Oswald'; font-size:22px; font-weight:600; text-transform:uppercase; margin-top:4px; }
+.date-block .small{ font-size:12.5px; color:#c9c5b8; margin-top:2px; }
+.date-arrow{ align-self:center; font-size:22px; color:#8a8676; }
+.res-detail-grid{ grid-template-columns:repeat(2,1fr); }
+
+.quote-box{ margin-top:14px; padding:12px 14px; background:#FFF3D6; border:1px solid #f0d89a; border-radius:var(--radius); font-size:13.5px; color:#5c4500; }
+
+.decline-field{ width:100%; max-width:480px; padding:9px 10px; border:1.5px solid var(--line); border-radius:var(--radius); font-family:'IBM Plex Sans'; font-size:13.5px; background:var(--paper); }

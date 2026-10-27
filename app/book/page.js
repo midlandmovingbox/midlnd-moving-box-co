@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { surchargeFor } from '../../lib/zones';
 
 const PACKAGES = {
   small: { name: 'Small Move', desc: '20 totes · 1 dolly · 1 bedroom/apartment', price: 109 },
@@ -26,14 +27,14 @@ function money(n) {
 export default function BookPage() {
   const [pkg, setPkg] = useState(null);
   const [addons, setAddons] = useState({});
-  const [location, setLocation] = useState(null);
   const [deliveryDate, setDeliveryDate] = useState('');
   const [deliveryWindow, setDeliveryWindow] = useState('');
   const [pickupDate, setPickupDate] = useState('');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const [address, setAddress] = useState('');
+  const [fromAddress, setFromAddress] = useState('');
+  const [toAddress, setToAddress] = useState('');
   const [notes, setNotes] = useState('');
   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
@@ -92,8 +93,9 @@ export default function BookPage() {
   function addonTotal() {
     return ADDONS.reduce((sum, a) => sum + a.price * (addons[a.id] || 0), 0);
   }
+  const zones = surchargeFor(fromAddress, toAddress);
   function subtotal() {
-    return (pkg ? PACKAGES[pkg].price : 0) + addonTotal();
+    return (pkg ? PACKAGES[pkg].price : 0) + addonTotal() + zones.knownTotal;
   }
   function tax() {
     return subtotal() * TAX_RATE;
@@ -106,8 +108,12 @@ export default function BookPage() {
     e.preventDefault();
     setSubmitError('');
 
-    if (!pkg || !location || !deliveryDate || !pickupDate || !name || !phone || !address) {
+    if (!pkg || !deliveryDate || !pickupDate || !name || !phone || !fromAddress || !toAddress) {
       setSubmitError('Please fill in all required fields.');
+      return;
+    }
+    if (!zones.from.zip || !zones.to.zip) {
+      setSubmitError('Please include the ZIP code in both addresses.');
       return;
     }
     if (!agreedToTerms) {
@@ -136,11 +142,11 @@ export default function BookPage() {
           deliveryDate,
           pickupDate,
           deliveryWindow,
-          location,
           name,
           phone,
           email,
-          address,
+          fromAddress,
+          toAddress,
           notes,
           agreedToTerms,
         }),
@@ -194,21 +200,10 @@ export default function BookPage() {
         </div>
 
         <div className="form-section">
-          <div className="form-section-title"><span className="num">2</span> Dates &amp; location</div>
-          <div className="field">
-            <label>Where are you moving?</label>
-            <div className="radio-pill-row">
-              {['midland', 'odessa', 'outside'].map((loc) => (
-                <label key={loc} className="radio-pill">
-                  <input type="radio" name="location" checked={location === loc} onChange={() => setLocation(loc)} />
-                  {loc === 'midland' ? 'Midland' : loc === 'odessa' ? 'Odessa' : 'Outside area'}
-                </label>
-              ))}
-            </div>
-          </div>
+          <div className="form-section-title"><span className="num">2</span> Dates</div>
           <div className="field-row">
             <div className="field">
-              <label>Delivery date</label>
+              <label>Totes delivered on</label>
               <input type="date" value={deliveryDate} onChange={(e) => setDeliveryDate(e.target.value)} required />
             </div>
             <div className="field">
@@ -217,7 +212,7 @@ export default function BookPage() {
             </div>
           </div>
           <div className="field">
-            <label>Pickup date</label>
+            <label>Totes picked up on</label>
             <input type="date" value={pickupDate} onChange={(e) => setPickupDate(e.target.value)} required />
           </div>
         </div>
@@ -253,8 +248,12 @@ export default function BookPage() {
             </div>
           </div>
           <div className="field">
-            <label>Delivery address</label>
-            <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Street, city, ZIP" required />
+            <label>Where are you moving from? <span style={{ color: '#8a8676', fontWeight: 400 }}>(we deliver your totes here)</span></label>
+            <input type="text" value={fromAddress} onChange={(e) => setFromAddress(e.target.value)} placeholder="Street, city, ZIP" required />
+          </div>
+          <div className="field">
+            <label>Where are you moving to? <span style={{ color: '#8a8676', fontWeight: 400 }}>(we pick up your totes here)</span></label>
+            <input type="text" value={toAddress} onChange={(e) => setToAddress(e.target.value)} placeholder="Street, city, ZIP" required />
           </div>
           <div className="field">
             <label>Anything else we should know?</label>
@@ -276,8 +275,16 @@ export default function BookPage() {
           <div className="summary-box">
             <div className="summary-row"><span>Package</span><span>{pkg ? `${PACKAGES[pkg].name} — ${money(PACKAGES[pkg].price)}` : '—'}</span></div>
             <div className="summary-row"><span>Add-ons</span><span>{money(addonTotal())}</span></div>
+            {zones.knownTotal > 0 && (
+              <div className="summary-row"><span>Delivery area fee</span><span>{money(zones.knownTotal)}</span></div>
+            )}
             <div className="summary-row"><span>Texas sales tax (8.25%)</span><span>{money(tax())}</span></div>
-            <div className="summary-row total"><span>Total if confirmed</span><span>{money(total())}</span></div>
+            <div className="summary-row total"><span>Total if confirmed</span><span>{money(total())}{zones.needsQuote && fromAddress && toAddress ? ' + area fee' : ''}</span></div>
+            {zones.needsQuote && zones.from.zip && zones.to.zip && (
+              <p className="summary-note" style={{ marginTop: 10 }}>
+                One of your addresses is outside our standard delivery area. We'll email you the area fee to approve before anything is charged.
+              </p>
+            )}
           </div>
         </div>
 
