@@ -1,5 +1,6 @@
 'use client';
 
+import { orderNumber } from '../../lib/order';
 import { useEffect, useState } from 'react';
 import { DECLINE_REASONS } from '../../lib/declineReasons';
 import { zoneFor } from '../../lib/zones';
@@ -191,7 +192,7 @@ export default function AdminPage() {
           <div className="res-card" key={r.id}>
             <div className="res-card-top">
               <div>
-                <div className="res-card-title">{PACKAGE_NAMES[r.package] || r.package} — {r.name}</div>
+                <div className="res-card-title">{PACKAGE_NAMES[r.package] || r.package} — {r.name} <span style={{ fontSize: 12, fontWeight: 500, opacity: 0.7 }}>{orderNumber(r.id)}</span></div>
                 <div className="res-contact">
                   <a href={`tel:${(r.phone || '').replace(/[^0-9+]/g, '')}`}>{r.phone}</a>
                   {r.email && <a href={`mailto:${r.email}`}>{r.email}</a>}

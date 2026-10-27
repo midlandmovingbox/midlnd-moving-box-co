@@ -105,7 +105,7 @@ export default function Terms() {
       <p>You agree to use the equipment only as follows, and to make sure everyone who uses it on your behalf does too:</p>
       <ul>
         <li>Use totes only to pack, carry and temporarily store ordinary household goods. Do not store hazardous, flammable, corrosive or illegal materials, food waste, perishable food, animals, or anything that could leak, spill or damage the equipment.</li>
-        <li>Never overload a tote or dolly. Keep loads at a weight that you and anyone helping can lift and move safely, and within what the equipment can safely hold. Use proper lifting technique and get help with heavy items.</li>
+        <li>Never exceed the load limits: <strong>100 lb per tote and 330 lb per dolly</strong>. Keep loads at a weight that you and anyone helping can lift and move safely, and well within those limits. Use proper lifting technique and get help with heavy items.</li>
         <li>Stack totes only on level, stable ground and only as high as is safe. Secure stacks and loads before moving them, and keep them out of walkways, stairs and doorways.</li>
         <li>Use dollies only as designed, with a stable, balanced load. Take extra care on stairs, ramps, curbs, uneven or wet surfaces, and when loading or unloading vehicles. Do not ride on, climb on, or push people on dollies or totes.</li>
         <li>Do not use totes as seats, steps, ladders, work platforms or toys, and do not allow children or pets to play in, on or around the equipment.</li>
