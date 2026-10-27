@@ -230,13 +230,14 @@ export default function BookPage() {
 
         <div className="form-section">
           <div className="form-section-title"><span className="num">3</span> Add-ons (optional)</div>
+          {!pkg && <div className="addon-lock">Add-ons are available with a package. Choose a package above first.</div>}
           {ADDONS.map((a) => (
             <div className="addon-row" key={a.id}>
               <span className="name">{a.name}<span className="price">{money(a.price)}</span></span>
               <div className="stepper">
-                <button type="button" onClick={() => changeAddon(a.id, -1)}>−</button>
+                <button type="button" disabled={!pkg} onClick={() => changeAddon(a.id, -1)}>−</button>
                 <span className="count">{addons[a.id] || 0}</span>
-                <button type="button" onClick={() => changeAddon(a.id, 1)}>+</button>
+                <button type="button" disabled={!pkg} onClick={() => changeAddon(a.id, 1)}>+</button>
               </div>
             </div>
           ))}

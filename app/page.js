@@ -33,7 +33,7 @@ export default function Home() {
                 <a className="btn-primary" href="/book">Reserve in 2 Minutes →</a>
                 <a className="btn-ghost" href="#packages">See packages</a>
               </div>
-              <div className="hero-note" style={{ marginTop: 18 }}>Free delivery &amp; pickup in Midland &amp; Odessa · $109 to start</div>
+              <div className="hero-note" style={{ marginTop: 18 }}>Free delivery &amp; pickup in Midland &amp; Odessa · Packages start at $109</div>
             </div>
             <div className="hero-visual">
               <ToteStack />

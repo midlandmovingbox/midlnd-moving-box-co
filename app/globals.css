@@ -317,3 +317,13 @@ h1,h2,h3,.stencil,.legal-page h1,.legal-page h2{ font-family:'Instrument Serif',
 .pkg-price sup{ font-family:'Figtree', sans-serif; }
 .consent-box h4{ font-family:'Figtree', sans-serif; }
 .admin-login h1, .admin-topbar h1{ font-size:28px; }
+
+/* bigger logo */
+.site-logo{ height:72px !important; }
+.book-header .site-logo{ height:84px !important; }
+.legal-page .site-logo, .legal-top .site-logo{ height:64px !important; }
+.foot-logo .site-logo{ height:100px !important; }
+@media (min-width:900px){ .topbar .site-logo{ height:92px !important; } .topbar-inner{ padding:14px 24px; } }
+@media (max-width:899px){ .topbar .site-logo{ height:64px !important; } .book-header .site-logo{ height:68px !important; } .legal-page .site-logo{ height:56px !important; } }
+.addon-lock{ background:#FFF3D6; border:1px solid #f0d89a; border-radius:var(--radius); padding:10px 12px; font-size:13.5px; margin-bottom:12px; }
+.stepper button:disabled{ opacity:.35; cursor:not-allowed; }
