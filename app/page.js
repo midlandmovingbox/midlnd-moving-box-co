@@ -1,6 +1,5 @@
 import Faq from '../components/Faq';
 import SiteLogo from '../components/SiteLogo';
-import ToteStack from '../components/ToteStack';
 // ONE-STEP PHONE SWAP: once you pick a number, fill in both lines below.
 // Example: PHONE_DISPLAY = '(432) 555-1234'  and  PHONE_DIGITS = '4325551234'
 // While PHONE_DISPLAY is empty, no phone number shows on the site.
@@ -36,7 +35,7 @@ export default function Home() {
               <div className="hero-note" style={{ marginTop: 18 }}>Free delivery &amp; pickup in select Midland &amp; Odessa areas · Packages start at $109</div>
             </div>
             <div className="hero-visual">
-              <ToteStack />
+              <img className="hero-photo" src="/hero-totes.jpg" alt="Black Midland Moving Box Co. totes with yellow lids stacked in a living room, one open and packed" width="1536" height="1024" />
             <div className="ticket">
               <div className="ticket-head">
                 <div className="to">Deliver To<br /><strong style={{ color: 'var(--ink)', fontFamily: "'Figtree'", fontSize: 14 }}>Your Address, Midland TX</strong></div>
