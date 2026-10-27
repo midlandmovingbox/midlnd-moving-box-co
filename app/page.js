@@ -91,7 +91,7 @@ export default function Home() {
               <div className="pkg-name">Small Move</div>
               <div className="pkg-price">$109<sup>/ 2 wks</sup></div>
               <div className="pkg-desc">Enough for a studio or one-bedroom, easy.</div>
-              <ul className="pkg-list"><li>20 heavy-duty totes</li><li>1 tote dolly</li><li>Free Midland &amp; Odessa delivery</li></ul>
+              <ul className="pkg-list"><li>20 heavy-duty 27-gallon totes</li><li>1 tote dolly</li><li>Free Midland &amp; Odessa delivery</li></ul>
               <a className="pkg-cta" href="/book?pkg=small">Reserve Small Move</a>
             </div>
             <div className="pkg-card featured">
@@ -100,7 +100,7 @@ export default function Home() {
               <div className="pkg-name">Home Move</div>
               <div className="pkg-price">$179<sup>/ 2 wks</sup></div>
               <div className="pkg-desc">The one most Midland households book.</div>
-              <ul className="pkg-list"><li>40 heavy-duty totes</li><li>2 tote dollies</li><li>Free Midland &amp; Odessa delivery</li></ul>
+              <ul className="pkg-list"><li>40 heavy-duty 27-gallon totes</li><li>2 tote dollies</li><li>Free Midland &amp; Odessa delivery</li></ul>
               <a className="pkg-cta" href="/book?pkg=home">Reserve Home Move</a>
             </div>
             <div className="pkg-card">
@@ -108,7 +108,7 @@ export default function Home() {
               <div className="pkg-name">Big Move</div>
               <div className="pkg-price">$239<sup>/ 2 wks</sup></div>
               <div className="pkg-desc">For the house that's been collecting years of stuff.</div>
-              <ul className="pkg-list"><li>60 heavy-duty totes</li><li>3 tote dollies</li><li>Free Midland &amp; Odessa delivery</li></ul>
+              <ul className="pkg-list"><li>60 heavy-duty 27-gallon totes</li><li>3 tote dollies</li><li>Free Midland &amp; Odessa delivery</li></ul>
               <a className="pkg-cta" href="/book?pkg=big">Reserve Big Move</a>
             </div>
           </div>
