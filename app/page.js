@@ -39,7 +39,7 @@ export default function Home() {
               <ToteStack />
             <div className="ticket">
               <div className="ticket-head">
-                <div className="to">Deliver To<br /><strong style={{ color: 'var(--ink)', fontFamily: "'Barlow'", fontSize: 14 }}>Your Address, Midland TX</strong></div>
+                <div className="to">Deliver To<br /><strong style={{ color: 'var(--ink)', fontFamily: "'Figtree'", fontSize: 14 }}>Your Address, Midland TX</strong></div>
                 <div className="no">Ticket No.<br />MMB-0472</div>
               </div>
               <div className="ticket-body">
