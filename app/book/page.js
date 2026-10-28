@@ -239,7 +239,7 @@ export default function BookPage() {
           {!pkg && <div className="addon-lock">Add-ons are available with a package. Choose a package above first.</div>}
           {ADDONS.map((a) => (
             <div className="addon-row" key={a.id}>
-              <span className="name">{a.name}<span className="price">{money(a.price)}</span>{a.id === 'dolly' && pkg && PACKAGES[pkg].maxExtraDollies != null && <span className="price"> · up to {PACKAGES[pkg].maxExtraDollies} with this package</span>}{a.id === 'tote' && pkg && PACKAGES[pkg].maxExtraTotes != null && <span className="price"> · up to {PACKAGES[pkg].maxExtraTotes} with this package</span>}</span>
+              <span className="name">{a.name}<span className="price">{money(a.price)}</span>{a.note && <span className="price"> · {a.note}</span>}{a.id === 'dolly' && pkg && PACKAGES[pkg].maxExtraDollies != null && <span className="price"> · up to {PACKAGES[pkg].maxExtraDollies} with this package</span>}{a.id === 'tote' && pkg && PACKAGES[pkg].maxExtraTotes != null && <span className="price"> · up to {PACKAGES[pkg].maxExtraTotes} with this package</span>}</span>
               <div className="stepper">
                 <button type="button" disabled={!pkg} onClick={() => changeAddon(a.id, -1)}>−</button>
                 <span className="count">{addons[a.id] || 0}</span>
