@@ -53,6 +53,7 @@ export default function Extend() {
               If your order number and email match a confirmed reservation, you'll get an email shortly. We'll confirm
               the extra time with you before anything is charged to your card on file.
             </p>
+            <img className="welcome-photo" src="/welcome-watercolor.jpg" alt="" />
             <a href="/" className="btn-primary" style={{ display: 'inline-block', marginTop: 12 }}>Back to homepage</a>
           </div>
         ) : (

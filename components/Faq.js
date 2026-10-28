@@ -3,6 +3,7 @@ import { POLICY } from '../lib/policy';
 export const FAQ_ITEMS = [
   {
     q: 'Why rent moving boxes?',
+    image: { src: '/tote-vs-box.jpg', alt: 'A Midland Moving Box Co. tote next to a taped cardboard box' },
     a: "Reusable totes are sturdier than cardboard, stack cleanly, hold up to Texas wind and weather, and don't collapse when they get heavy. We deliver them, you pack and move on your schedule, and we pick them up. There's no tape, no flattening, no trips to buy boxes, and no pile of cardboard to get rid of afterward.",
   },
   {
@@ -56,6 +57,7 @@ export default function Faq() {
           {FAQ_ITEMS.map((item) => (
             <details className="faq-item" key={item.q}>
               <summary>{item.q}</summary>
+              {item.image && <img className="faq-photo" src={item.image.src} alt={item.image.alt} loading="lazy" />}
               <p>{item.a}{item.link && <>{' '}<a href={item.link.href} style={{ textDecoration: 'underline' }}>{item.link.label}</a></>}</p>
             </details>
           ))}

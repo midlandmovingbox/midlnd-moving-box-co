@@ -177,8 +177,9 @@ export default function BookPage() {
         <h1 style={{ fontSize: 24 }}>Request received — thanks!</h1>
         <p style={{ color: '#4c4a42', marginTop: 10, maxWidth: 440, marginLeft: 'auto', marginRight: 'auto' }}>
           Your card is securely saved but <strong>has not been charged</strong>. We're reviewing your dates now
-          and will text or call shortly. Once we confirm, we'll charge the card on file for the rental total.
+          and will email you shortly. Once we confirm, we'll charge the card on file for the rental total.
         </p>
+        <img className="welcome-photo" src="/welcome-watercolor.jpg" alt="" />
         <a href="/" className="btn-primary" style={{ marginTop: 24, display: 'inline-block' }}>Back to homepage</a>
       </div>
     );
@@ -212,6 +213,7 @@ export default function BookPage() {
                 <div className="title-row"><span className="title">{p.name}{key === 'home' && <span className="most-booked">Most booked</span>}</span><span className="price">${p.price}</span></div>
                 <div className="desc">{p.desc}</div>
               </div>
+              <img className="choice-photo" src={`/pkg-${key}.jpg`} alt="" loading="lazy" />
             </label>
           ))}
         </div>
@@ -239,6 +241,7 @@ export default function BookPage() {
           {!pkg && <div className="addon-lock">Add-ons are available with a package. Choose a package above first.</div>}
           {ADDONS.map((a) => (
             <div className="addon-row" key={a.id}>
+              <img className="addon-photo" src={`/addon-${a.id}.jpg`} alt="" loading="lazy" />
               <span className="name">{a.name}<span className="price">{money(a.price)}</span>{a.note && <span className="price"> · {a.note}</span>}{a.id === 'dolly' && pkg && PACKAGES[pkg].maxExtraDollies != null && <span className="price"> · up to {PACKAGES[pkg].maxExtraDollies} with this package</span>}{a.id === 'tote' && pkg && PACKAGES[pkg].maxExtraTotes != null && <span className="price"> · up to {PACKAGES[pkg].maxExtraTotes} with this package</span>}</span>
               <div className="stepper">
                 <button type="button" disabled={!pkg} onClick={() => changeAddon(a.id, -1)}>−</button>

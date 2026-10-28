@@ -58,20 +58,23 @@ export default function Home() {
 
       <section className="how" id="how">
         <div className="wrap">
-          <div className="section-eyebrow">The route</div>
+          <div className="section-eyebrow">How it works</div>
           <h2 className="section-title">Three steps. Simple, easy, &amp; clean.</h2>
           <div className="how-row">
             <div className="how-step">
+              <img className="how-photo" src="/step-delivery.jpg" alt="Clean totes and a dolly delivered to a front porch" loading="lazy" width="900" height="600" />
               <div className="idx">STEP 01 — WE DELIVER</div>
               <h3>Totes show up at your door</h3>
               <p>We bring your clean, sanitized totes and dolly straight to your door on the morning you pick.</p>
             </div>
             <div className="how-step">
+              <img className="how-photo" src="/step-pack.jpg" alt="Totes loaded in a truck bed next to a dolly stack" loading="lazy" width="900" height="600" />
               <div className="idx">STEP 02 — YOU PACK &amp; MOVE</div>
               <h3>Pack, load, move</h3>
               <p>Two full weeks with your totes. They stack clean and won't blow out like a wet box.</p>
             </div>
             <div className="how-step">
+              <img className="how-photo" src="/step-pickup.jpg" alt="Empty nested totes and a dolly by the front door" loading="lazy" width="900" height="600" />
               <div className="idx">STEP 03 — WE PICK UP</div>
               <h3>We haul the empties away</h3>
               <p>Leave the empty totes at the curb or inside the door. We swing by and load them up.</p>
