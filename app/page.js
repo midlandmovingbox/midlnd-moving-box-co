@@ -169,7 +169,7 @@ export default function Home() {
             <div className="section-eyebrow">Service area</div>
             <h2 className="section-title">Where we deliver.</h2>
             <div className="area-box">
-              <div className="zone-row"><span>Select Midland &amp; Odessa areas</span><span className="fee">Free delivery &amp; pickup</span></div>
+              <div className="zone-row"><span>Select areas</span><span className="fee">Free delivery &amp; pickup</span></div>
               <div className="zone-row"><span>Nearby and outlying areas</span><span className="fee">Travel charges may apply</span></div>
               <div className="zone-row"><span>Anywhere else</span><span className="fee">We'll quote you</span></div>
             </div>
