@@ -63,7 +63,7 @@ export default function Home() {
                 <a className="btn-primary" href="/book">Reserve in 2 Minutes →</a>
                 <a className="btn-ghost" href="#packages">See packages</a>
               </div>
-              <div className="hero-note" style={{ marginTop: 18 }}>Free delivery &amp; pickup in select Midland &amp; Odessa areas · Rental packages start at $109</div>
+              <div className="hero-note" style={{ marginTop: 18 }}>Free delivery &amp; pickup in select areas · Rental packages start at $109</div>
             </div>
             <div className="hero-visual">
               <img className="hero-photo" src="/hero-totes.jpg" alt="Black Midland Moving Box Co. totes with yellow lids stacked in a living room, one open and packed" width="1536" height="1024" />

@@ -58,7 +58,7 @@ export default function Fees() {
 
       <h2>Delivery area fees</h2>
       <p>
-        Delivery and pickup are free in select Midland and Odessa ZIP codes. Nearby and outlying ZIP codes carry a
+        Delivery and pickup are free in select ZIP codes. Nearby and outlying ZIP codes carry a
         fee each way (delivery and pickup are priced separately), and anywhere else is quoted to you and approved
         before anything is charged. The booking form shows your exact fee as soon as you enter your addresses.
       </p>
