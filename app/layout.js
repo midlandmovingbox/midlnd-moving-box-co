@@ -3,16 +3,23 @@ import LegalBar from '../components/LegalBar';
 
 export const metadata = {
   metadataBase: new URL('https://midlandmovingbox.com'),
-  title: 'Midland Moving Box Co. — Reusable Moving Tote Rentals, Delivered',
+  title: {
+    default: 'Moving Box & Tote Rentals in Midland & Odessa, TX | Midland Moving Box Co.',
+    template: '%s',
+  },
   description:
-    'Rent heavy-duty reusable moving totes and dollies in Midland & Odessa, TX. We deliver, you pack, we pick up. Reserve online in 2 minutes.',
+    'Rent reusable plastic moving totes and dollies in Midland & Odessa, TX. Delivered to your door, picked up when you are done. No cardboard, no tape. Packages from $109.',
+  alternates: { canonical: '/' },
+  robots: { index: true, follow: true },
   openGraph: {
-    title: 'Midland Moving Box Co. — Reusable Moving Tote Rentals, Delivered',
+    title: 'Moving Box & Tote Rentals in Midland & Odessa, TX | Midland Moving Box Co.',
     description: 'Skip the cardboard. Rent heavy-duty moving totes, delivered in Midland & Odessa, TX.',
     url: 'https://midlandmovingbox.com',
     siteName: 'Midland Moving Box Co.',
     type: 'website',
+    locale: 'en_US',
   },
+  twitter: { card: 'summary_large_image' },
 };
 
 const squareSdkSrc =

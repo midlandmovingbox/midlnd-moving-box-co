@@ -1,4 +1,7 @@
-import Faq from '../components/Faq';
+import Faq, { FAQ_ITEMS } from '../components/Faq';
+import JsonLd from '../components/JsonLd';
+import { faqSchema } from '../components/ContentPage';
+import { PACKAGES } from '../lib/constants';
 import SiteLogo from '../components/SiteLogo';
 // ONE-STEP PHONE SWAP: once you pick a number, fill in both lines below.
 // Example: PHONE_DISPLAY = '(432) 555-1234'  and  PHONE_DIGITS = '4325551234'
@@ -6,9 +9,37 @@ import SiteLogo from '../components/SiteLogo';
 const PHONE_DISPLAY = '';
 const PHONE_DIGITS = '';
 
+const BUSINESS_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': 'https://midlandmovingbox.com/#business',
+  name: 'Midland Moving Box Co.',
+  url: 'https://midlandmovingbox.com',
+  logo: 'https://midlandmovingbox.com/logo-lockup.png',
+  image: 'https://midlandmovingbox.com/hero-totes.jpg',
+  description: 'Reusable plastic moving tote and dolly rentals in Midland and Odessa, Texas. We deliver, you pack and move, we pick up. No cardboard, no tape.',
+  priceRange: '$109-$239',
+  areaServed: [
+    { '@type': 'City', name: 'Midland, TX' },
+    { '@type': 'City', name: 'Odessa, TX' },
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Moving tote rental packages (two-week rental)',
+    itemListElement: Object.values(PACKAGES).map((p) => ({
+      '@type': 'Offer',
+      price: String(p.price),
+      priceCurrency: 'USD',
+      itemOffered: { '@type': 'Service', name: `${p.name}: ${p.totes} totes, ${p.dollies} dolly${p.dollies > 1 ? 's' : ''}, two-week rental with delivery and pickup` },
+    })),
+  },
+};
+
 export default function Home() {
   return (
     <>
+      <JsonLd data={BUSINESS_SCHEMA} />
+      <JsonLd data={faqSchema(FAQ_ITEMS.map((i) => ({ q: i.q, a: i.a })))} />
       <div className="topbar">
         <div className="wrap topbar-inner">
           <SiteLogo height={50} />
@@ -194,6 +225,13 @@ export default function Home() {
               <a href="/terms" style={{ textDecoration: 'underline' }}>Terms &amp; Conditions</a>
               {' · '}
               <a href="/fees" style={{ textDecoration: 'underline' }}>Fees &amp; Charges</a>
+            </span>
+            <span>
+              <a href="/moving-box-rental-midland-tx" style={{ textDecoration: 'underline' }}>Moving box rentals in Midland</a>
+              {' · '}
+              <a href="/moving-box-rental-odessa-tx" style={{ textDecoration: 'underline' }}>Moving box rentals in Odessa</a>
+              {' · '}
+              <a href="/moving-tote-rental-vs-cardboard-boxes" style={{ textDecoration: 'underline' }}>Totes vs. cardboard</a>
             </span>
           </div>
         </div>

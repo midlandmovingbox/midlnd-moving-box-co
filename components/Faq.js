@@ -7,6 +7,15 @@ export const FAQ_ITEMS = [
     a: "Reusable totes are sturdier than cardboard, stack cleanly, hold up to Texas wind and weather, and don't collapse when they get heavy. We deliver them, you pack and move on your schedule, and we pick them up. There's no tape, no flattening, no trips to buy boxes, and no pile of cardboard to get rid of afterward.",
   },
   {
+    q: 'Where can I rent moving boxes in Midland and Odessa?',
+    a: "Midland Moving Box Co. rents reusable plastic moving totes and dollies in Midland and Odessa, TX. We deliver to your door, you pack and move for two weeks, and we pick them up. Packages start at $109.",
+  },
+  {
+    q: 'Do I need tape or cardboard?',
+    a: "No. The totes have lids, so there's no tape to buy and no cardboard to break down or throw away afterward.",
+    link: { href: '/moving-tote-rental-vs-cardboard-boxes', label: 'Totes vs. cardboard boxes' },
+  },
+  {
     q: 'Are the totes clean?',
     a: "Yes. Every tote arrives clean and sanitized, ready for your move. Please return them empty and in the same condition.",
   },
