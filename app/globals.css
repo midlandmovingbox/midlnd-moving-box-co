@@ -374,3 +374,14 @@ h1,h2,h3,.stencil,.legal-page h1,.legal-page h2{ font-family:'Instrument Serif',
 .photo-row{ margin-top:10px; display:flex; gap:18px; flex-wrap:wrap; }
 .photo-row .mono{ display:block; font-size:11px; text-transform:uppercase; margin-bottom:4px; }
 .photo-row img{ width:72px; height:72px; object-fit:cover; border-radius:4px; margin-right:6px; border:1px solid var(--line); }
+
+/* admin dashboard */
+.dash-h{ font-family:'Instrument Serif', Georgia, serif; font-weight:400; font-size:26px; margin:26px 0 10px; }
+.dash-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:12px; }
+.dash-card{ background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px; }
+.dash-label{ font-size:12px; text-transform:uppercase; letter-spacing:0.05em; color:#6b6759; margin-bottom:6px; }
+.dash-value{ font-size:26px; font-weight:700; line-height:1.15; }
+.dash-sub{ font-size:12.5px; color:#6b6759; margin-top:5px; line-height:1.5; }
+.dash-line{ font-size:14px; padding:2px 0; }
+.dash-bar{ height:12px; background:#ece8dc; border-radius:6px; margin:10px 0 6px; overflow:hidden; }
+.dash-bar > div{ height:100%; background:var(--rust); }

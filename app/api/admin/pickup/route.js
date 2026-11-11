@@ -4,13 +4,14 @@ import { supabaseAdmin } from '../../../../lib/supabaseAdmin';
 import { loadReservation, chargeAndLog, int } from '../../../../lib/charges';
 import { POLICY, expectedEquipment, taxOn } from '../../../../lib/policy';
 import { emailPickup } from '../../../../lib/email';
+import { logTrip } from '../../../../lib/tripLog';
 import { cleanPaths, photoAttachments, withPhotoUrls } from '../../../../lib/photos';
 
 // Records what was picked up. Anything short of what was delivered is charged automatically.
 export async function POST(request) {
   if (!isAdminRequest(request)) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
   try {
-    const { reservationId, totes, dollies, photos } = await request.json();
+    const { reservationId, totes, dollies, photos, minutes, miles } = await request.json();
     const paths = cleanPaths(reservationId, photos);
     const r = await loadReservation(reservationId);
     if (!r) return NextResponse.json({ error: 'Reservation not found' }, { status: 404 });
@@ -46,6 +47,7 @@ export async function POST(request) {
       .single();
     if (error) return NextResponse.json({ error: 'Pickup saved failed after charging. Check the Charges list.' }, { status: 500 });
 
+    await logTrip(reservationId, 'pickup', minutes, miles);
     await emailPickup(data, { deliveredTotes, deliveredDollies, items, fee, attachments: await photoAttachments(paths, 'pickup') });
     return NextResponse.json({ success: true, reservation: await withPhotoUrls(data), charge });
   } catch (err) {

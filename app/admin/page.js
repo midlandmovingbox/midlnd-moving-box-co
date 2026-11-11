@@ -1,6 +1,7 @@
 'use client';
 
 import { orderNumber } from '../../lib/order';
+import Dashboard from './Dashboard';
 import { useEffect, useState } from 'react';
 import { DECLINE_REASONS } from '../../lib/declineReasons';
 import { zoneFor } from '../../lib/zones';
@@ -40,6 +41,7 @@ export default function AdminPage() {
 
   const [reservations, setReservations] = useState([]);
   const [filter, setFilter] = useState('requested');
+  const [view, setView] = useState('bookings');
   const [busyId, setBusyId] = useState(null);
   const [listError, setListError] = useState('');
   // Per-reservation form state: forms[id] = { panel: 'deliver' | 'pickup' | ..., ...fields }
@@ -169,9 +171,17 @@ export default function AdminPage() {
   return (
     <div className="admin-shell">
       <div className="admin-topbar">
-        <h1>Reservations</h1>
+        <h1>{view === 'dashboard' ? 'Dashboard' : 'Reservations'}</h1>
         <a href="/" className="mono" style={{ fontSize: 12, color: '#6b6759' }}>← Site</a>
       </div>
+
+      <div className="status-tabs" style={{ marginBottom: 14 }}>
+        <button className={`status-tab ${view === 'bookings' ? 'active' : ''}`} onClick={() => setView('bookings')}>Bookings</button>
+        <button className={`status-tab ${view === 'dashboard' ? 'active' : ''}`} onClick={() => setView('dashboard')}>Dashboard</button>
+      </div>
+
+      {view === 'dashboard' ? <Dashboard /> : (
+      <>
 
       <div className="status-tabs">
         {['requested', 'confirmed', 'returned', 'declined', 'cancelled', 'all'].map((s) => (
@@ -383,8 +393,10 @@ export default function AdminPage() {
                     <div className="charge-form">
                       <label>Totes <input className="amount" type="number" value={f.delTotes ?? exp.totes} onChange={(e) => setF(r.id, { delTotes: e.target.value })} /></label>
                       <label>Dollies <input className="amount" type="number" value={f.delDollies ?? exp.dollies} onChange={(e) => setF(r.id, { delDollies: e.target.value })} /></label>
+                      <label>Minutes <input className="amount" type="number" placeholder="optional" value={f.delMin ?? ''} onChange={(e) => setF(r.id, { delMin: e.target.value })} /></label>
+                      <label>Miles <input className="amount" type="number" placeholder="optional" value={f.delMiles ?? ''} onChange={(e) => setF(r.id, { delMiles: e.target.value })} /></label>
                       <label>Photos <input type="file" accept="image/*" multiple onChange={(e) => setF(r.id, { delFiles: Array.from(e.target.files || []) })} /></label>
-                      <button className="btn-charge" disabled={busy} onClick={() => act(r.id, '/api/admin/deliver', { totes: f.delTotes ?? exp.totes, dollies: f.delDollies ?? exp.dollies }, `Record delivery and email the customer the count${(f.delFiles || []).length ? ` with ${(f.delFiles || []).length} photo(s)` : ''}?`, { kind: 'delivered', files: f.delFiles || [] })}>{busy ? 'Sending…' : 'Send delivery email'}</button>
+                      <button className="btn-charge" disabled={busy} onClick={() => act(r.id, '/api/admin/deliver', { totes: f.delTotes ?? exp.totes, dollies: f.delDollies ?? exp.dollies, minutes: f.delMin, miles: f.delMiles }, `Record delivery and email the customer the count${(f.delFiles || []).length ? ` with ${(f.delFiles || []).length} photo(s)` : ''}?`, { kind: 'delivered', files: f.delFiles || [] })}>{busy ? 'Sending…' : 'Send delivery email'}</button>
                     </div>
                   </div>
                 )}
@@ -395,11 +407,13 @@ export default function AdminPage() {
                     <div className="charge-form">
                       <label>Totes <input className="amount" type="number" value={pickTotes} onChange={(e) => setF(r.id, { pickTotes: e.target.value })} /></label>
                       <label>Dollies <input className="amount" type="number" value={pickDollies} onChange={(e) => setF(r.id, { pickDollies: e.target.value })} /></label>
+                      <label>Minutes <input className="amount" type="number" placeholder="optional" value={f.pickMin ?? ''} onChange={(e) => setF(r.id, { pickMin: e.target.value })} /></label>
+                      <label>Miles <input className="amount" type="number" placeholder="optional" value={f.pickMiles ?? ''} onChange={(e) => setF(r.id, { pickMiles: e.target.value })} /></label>
                       <label>Photos <input type="file" accept="image/*" multiple onChange={(e) => setF(r.id, { pickFiles: Array.from(e.target.files || []) })} /></label>
                       <button
                         className="btn-charge"
                         disabled={busy}
-                        onClick={() => act(r.id, '/api/admin/pickup', { totes: pickTotes, dollies: pickDollies }, missFee > 0 ? `${missT} tote(s) and ${missD} dolly(ies) missing. This will CHARGE ${money(missFee)} to the card now and email the customer. Continue?` : 'Everything accounted for. Record pickup and email the customer?', { kind: 'pickup', files: f.pickFiles || [] })}
+                        onClick={() => act(r.id, '/api/admin/pickup', { totes: pickTotes, dollies: pickDollies, minutes: f.pickMin, miles: f.pickMiles }, missFee > 0 ? `${missT} tote(s) and ${missD} dolly(ies) missing. This will CHARGE ${money(missFee)} to the card now and email the customer. Continue?` : 'Everything accounted for. Record pickup and email the customer?', { kind: 'pickup', files: f.pickFiles || [] })}
                       >
                         {missFee > 0 ? `Record & charge ${money(missFee)}` : 'Record pickup'}
                       </button>
@@ -550,6 +564,8 @@ export default function AdminPage() {
           </div>
         );
       })}
+      </>
+      )}
     </div>
   );
 }
