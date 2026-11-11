@@ -2,6 +2,7 @@
 
 import { orderNumber } from '../../lib/order';
 import Dashboard from './Dashboard';
+import Codes from './Codes';
 import { useEffect, useState } from 'react';
 import { DECLINE_REASONS } from '../../lib/declineReasons';
 import { zoneFor } from '../../lib/zones';
@@ -171,16 +172,17 @@ export default function AdminPage() {
   return (
     <div className="admin-shell">
       <div className="admin-topbar">
-        <h1>{view === 'dashboard' ? 'Dashboard' : 'Reservations'}</h1>
+        <h1>{view === 'dashboard' ? 'Dashboard' : view === 'codes' ? 'Discount codes' : 'Reservations'}</h1>
         <a href="/" className="mono" style={{ fontSize: 12, color: '#6b6759' }}>← Site</a>
       </div>
 
       <div className="status-tabs" style={{ marginBottom: 14 }}>
         <button className={`status-tab ${view === 'bookings' ? 'active' : ''}`} onClick={() => setView('bookings')}>Bookings</button>
         <button className={`status-tab ${view === 'dashboard' ? 'active' : ''}`} onClick={() => setView('dashboard')}>Dashboard</button>
+        <button className={`status-tab ${view === 'codes' ? 'active' : ''}`} onClick={() => setView('codes')}>Discount codes</button>
       </div>
 
-      {view === 'dashboard' ? <Dashboard /> : (
+      {view === 'dashboard' ? <Dashboard /> : view === 'codes' ? <Codes /> : (
       <>
 
       <div className="status-tabs">
@@ -257,6 +259,7 @@ export default function AdminPage() {
                 <div className="val">
                   {money(r.total)}
                   {areaFee > 0 && <span style={{ color: '#8a8676' }}> · incl. {money(areaFee)} area fee</span>}
+                  {Number(r.discount_amount) > 0 && <span style={{ color: '#1c6b3d' }}> · code {r.discount_code} (−{money(r.discount_amount)})</span>}
                 </div>
               </div>
               <div className="res-detail"><div className="lbl">Card</div><div className="val">{r.square_card_brand || 'Card'} •••• {r.square_card_last4 || '----'}</div></div>

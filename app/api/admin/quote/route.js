@@ -23,7 +23,7 @@ export async function POST(request) {
   }
 
   const surcharge = Number(r.delivery_surcharge) + Number(r.pickup_surcharge) + feeNum;
-  const { subtotal, tax, total } = computeTotals(r.package, r.addons, surcharge);
+  const { subtotal, tax, total } = computeTotals(r.package, r.addons, surcharge, Number(r.discount_amount) || 0);
 
   const { data, error } = await supabaseAdmin
     .from('reservations')

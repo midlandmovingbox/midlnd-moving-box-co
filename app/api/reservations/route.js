@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
 import { supabaseAdmin } from '../../../lib/supabaseAdmin';
+import { resolveCode } from '../../../lib/discounts';
+import { discountAmount } from '../../../lib/discountMath';
 import { PACKAGES, computeTotals, addonLimitError } from '../../../lib/constants';
 import { surchargeFor } from '../../../lib/zones';
 import { POLICY } from '../../../lib/policy';
@@ -44,7 +46,17 @@ export async function POST(request) {
     const limitErr = addonLimitError(pkg, addons);
     if (limitErr) return NextResponse.json({ error: limitErr }, { status: 400 });
 
-    const { subtotal, tax, total, cleanAddons, totes } = computeTotals(pkg, addons, zones.knownTotal);
+    // Discount code (optional). Always recalculated here; the browser's preview is only a preview.
+    let codeRow = null;
+    let discount = 0;
+    if (body.discountCode) {
+      const rc = await resolveCode(body.discountCode);
+      if (rc.error) return NextResponse.json({ error: rc.error }, { status: 400 });
+      codeRow = rc.row;
+      const pre = computeTotals(pkg, addons, zones.knownTotal);
+      discount = discountAmount(codeRow, pkg, pre.subtotal);
+    }
+    const { subtotal, tax, total, cleanAddons, totes } = computeTotals(pkg, addons, zones.knownTotal, discount);
 
     // 1. Create a Square customer
     const customer = await createCustomer({ name, email, phone });
@@ -83,6 +95,7 @@ export async function POST(request) {
         subtotal,
         tax,
         total,
+        ...(codeRow ? { discount_code: codeRow.code, discount_amount: discount } : {}),
         square_customer_id: customer.id,
         square_card_id: card.id,
         square_card_brand: card.card_brand || null,

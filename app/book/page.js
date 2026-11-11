@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { surchargeFor } from '../../lib/zones';
 import { POLICY } from '../../lib/policy';
+import { discountAmount, normalizeCode } from '../../lib/discountMath';
 import AddressInput from '../../components/AddressInput';
 import SiteLogo from '../../components/SiteLogo';
 
@@ -39,12 +40,30 @@ export default function BookPage() {
   const [submitError, setSubmitError] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
+  const [codeInput, setCodeInput] = useState('');
+  const [appliedCode, setAppliedCode] = useState(null); // { code, type, value, applies_to }
+  const [codeMsg, setCodeMsg] = useState('');
+
+  async function applyCode(raw) {
+    const c = normalizeCode(raw ?? codeInput);
+    if (!c) return;
+    setCodeMsg('');
+    try {
+      const res = await fetch('/api/discount', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: c }) });
+      const j = await res.json();
+      if (j.ok) { setAppliedCode(j.code); setCodeInput(j.code.code); setCodeMsg(j.description); }
+      else { setAppliedCode(null); setCodeMsg(j.error || "That code isn't valid"); }
+    } catch { setCodeMsg('Could not check that code. Try again.'); }
+  }
+
   const cardRef = useRef(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const p = params.get('pkg');
     if (p && PACKAGES[p]) setPkg(p);
+    const cd = params.get('code');
+    if (cd) { setCodeInput(normalizeCode(cd)); applyCode(cd); }
   }, []);
 
   useEffect(() => {
@@ -106,11 +125,14 @@ export default function BookPage() {
   function subtotal() {
     return (pkg ? PACKAGES[pkg].price : 0) + addonTotal() + zones.knownTotal;
   }
+  function discount() {
+    return appliedCode && pkg ? discountAmount(appliedCode, pkg, subtotal()) : 0;
+  }
   function tax() {
-    return subtotal() * TAX_RATE;
+    return (subtotal() - discount()) * TAX_RATE;
   }
   function total() {
-    return subtotal() + tax();
+    return subtotal() - discount() + tax();
   }
 
   async function handleSubmit(e) {
@@ -158,6 +180,7 @@ export default function BookPage() {
           toAddress,
           notes,
           agreedToTerms,
+          discountCode: appliedCode ? appliedCode.code : '',
         }),
       });
       const data = await res.json();
@@ -293,11 +316,22 @@ export default function BookPage() {
         </div>
 
         <div className="form-section">
+          <div className="field" style={{ marginBottom: 14 }}>
+            <label>Discount code (optional)</label>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <input value={codeInput} onChange={(e) => { setCodeInput(e.target.value.toUpperCase()); if (appliedCode) { setAppliedCode(null); setCodeMsg(''); } }} placeholder="Enter code" style={{ flex: 1 }} />
+              <button type="button" className="btn-primary" style={{ padding: '0 18px' }} onClick={() => applyCode()}>Apply</button>
+            </div>
+            {codeMsg && <div style={{ fontSize: 13, marginTop: 6, color: appliedCode ? '#1c6b3d' : 'var(--rust)' }}>{codeMsg}</div>}
+          </div>
           <div className="summary-box">
             <div className="summary-row"><span>Package</span><span>{pkg ? `${PACKAGES[pkg].name} — ${money(PACKAGES[pkg].price)}` : '—'}</span></div>
             <div className="summary-row"><span>Add-ons</span><span>{money(addonTotal())}</span></div>
             {zones.knownTotal > 0 && (
               <div className="summary-row"><span>Delivery area fee ({feeParts.join(', ')})</span><span>{money(zones.knownTotal)}</span></div>
+            )}
+            {discount() > 0 && (
+              <div className="summary-row"><span>Discount ({appliedCode.code})</span><span>−{money(discount())}</span></div>
             )}
             <div className="summary-row"><span>Texas sales tax (8.25%)</span><span>{money(tax())}</span></div>
             <div className="summary-row total"><span>Total if confirmed</span><span>{money(total())}{unlisted.length > 0 ? ' + area fee' : ''}</span></div>
