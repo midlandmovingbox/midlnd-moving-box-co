@@ -4,12 +4,14 @@ import { supabaseAdmin } from '../../../../lib/supabaseAdmin';
 import { loadReservation, chargeAndLog, int } from '../../../../lib/charges';
 import { POLICY, expectedEquipment, taxOn } from '../../../../lib/policy';
 import { emailPickup } from '../../../../lib/email';
+import { cleanPaths, photoAttachments, withPhotoUrls } from '../../../../lib/photos';
 
 // Records what was picked up. Anything short of what was delivered is charged automatically.
 export async function POST(request) {
   if (!isAdminRequest(request)) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
   try {
-    const { reservationId, totes, dollies } = await request.json();
+    const { reservationId, totes, dollies, photos } = await request.json();
+    const paths = cleanPaths(reservationId, photos);
     const r = await loadReservation(reservationId);
     if (!r) return NextResponse.json({ error: 'Reservation not found' }, { status: 404 });
     if (r.status !== 'confirmed') return NextResponse.json({ error: 'Only confirmed reservations can be picked up' }, { status: 400 });
@@ -38,14 +40,14 @@ export async function POST(request) {
 
     const { data, error } = await supabaseAdmin
       .from('reservations')
-      .update({ picked_up_at: new Date().toISOString(), picked_up_totes: pickedTotes, picked_up_dollies: pickedDollies, status: 'returned' })
+      .update({ picked_up_at: new Date().toISOString(), picked_up_totes: pickedTotes, picked_up_dollies: pickedDollies, status: 'returned', ...(paths.length ? { picked_up_photos: paths } : {}) })
       .eq('id', reservationId)
       .select()
       .single();
     if (error) return NextResponse.json({ error: 'Pickup saved failed after charging. Check the Charges list.' }, { status: 500 });
 
-    await emailPickup(data, { deliveredTotes, deliveredDollies, items, fee });
-    return NextResponse.json({ success: true, reservation: data, charge });
+    await emailPickup(data, { deliveredTotes, deliveredDollies, items, fee, attachments: await photoAttachments(paths, 'pickup') });
+    return NextResponse.json({ success: true, reservation: await withPhotoUrls(data), charge });
   } catch (err) {
     console.error('pickup error:', err);
     return NextResponse.json({ error: err.message || 'Could not record pickup' }, { status: 500 });

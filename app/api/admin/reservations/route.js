@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { isAdminRequest } from '../../../../lib/adminAuth';
 import { supabaseAdmin } from '../../../../lib/supabaseAdmin';
+import { withPhotoUrls } from '../../../../lib/photos';
 
 export async function GET(request) {
   if (!isAdminRequest(request)) {
@@ -25,10 +26,12 @@ export async function GET(request) {
     return NextResponse.json({ error: 'Could not load charges' }, { status: 500 });
   }
 
-  const withCharges = reservations.map((r) => ({
-    ...r,
-    extra_charges: charges.filter((c) => c.reservation_id === r.id),
-  }));
+  const withCharges = await Promise.all(
+    reservations.map(async (r) => ({
+      ...(await withPhotoUrls(r)),
+      extra_charges: charges.filter((c) => c.reservation_id === r.id),
+    }))
+  );
 
   return NextResponse.json({ reservations: withCharges });
 }

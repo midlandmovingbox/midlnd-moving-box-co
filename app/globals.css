@@ -371,3 +371,6 @@ h1,h2,h3,.stencil,.legal-page h1,.legal-page h2{ font-family:'Instrument Serif',
 .addon-photo{ flex:none; width:64px; height:48px; object-fit:contain; background:#fff; border:1px solid var(--line); border-radius:4px; }
 .welcome-photo{ width:100%; max-width:460px; height:auto; border-radius:var(--radius); margin:24px auto 0; }
 @media(max-width:480px){ .choice-photo{ width:68px; height:48px; } }
+.photo-row{ margin-top:10px; display:flex; gap:18px; flex-wrap:wrap; }
+.photo-row .mono{ display:block; font-size:11px; text-transform:uppercase; margin-bottom:4px; }
+.photo-row img{ width:72px; height:72px; object-fit:cover; border-radius:4px; margin-right:6px; border:1px solid var(--line); }

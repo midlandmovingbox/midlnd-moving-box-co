@@ -87,15 +87,44 @@ export default function AdminPage() {
     }
   }
 
+  // Shrinks a phone photo to ~1600px JPEG so uploads are fast and emails stay small.
+  async function shrink(file) {
+    const bmp = await createImageBitmap(file);
+    const scale = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.round(bmp.width * scale);
+    canvas.height = Math.round(bmp.height * scale);
+    canvas.getContext('2d').drawImage(bmp, 0, 0, canvas.width, canvas.height);
+    return await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.8));
+  }
+
+  async function uploadPhotos(id, kind, files) {
+    const paths = [];
+    for (const file of files) {
+      const blob = await shrink(file);
+      const fd = new FormData();
+      fd.append('reservationId', id);
+      fd.append('kind', kind);
+      fd.append('photo', blob, 'photo.jpg');
+      const res = await fetch('/api/admin/photos', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Photo upload failed');
+      paths.push(data.path);
+    }
+    return paths;
+  }
+
   // One helper for every admin action. Updates the card from the server's answer.
-  async function act(id, url, body, confirmText) {
+  async function act(id, url, body, confirmText, photo) {
     if (confirmText && !confirm(confirmText)) return;
     setBusyId(id);
     try {
+      let photos;
+      if (photo && photo.files && photo.files.length) photos = await uploadPhotos(id, photo.kind, photo.files);
       const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ reservationId: id, ...body }),
+        body: JSON.stringify({ reservationId: id, ...body, ...(photos ? { photos } : {}) }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -341,13 +370,21 @@ export default function AdminPage() {
                   {!r.delivered_at && <button className="btn-decline" disabled={busy} onClick={() => togglePanel(r.id, 'cancel')}>Cancel</button>}
                 </div>
 
+                {((r.delivered_photo_urls || []).length > 0 || (r.picked_up_photo_urls || []).length > 0) && (
+                  <div className="photo-row">
+                    {(r.delivered_photo_urls || []).length > 0 && <div><span className="mono">Delivery photos</span>{r.delivered_photo_urls.map((u) => <a key={u} href={u} target="_blank" rel="noopener"><img src={u} alt="Delivery" /></a>)}</div>}
+                    {(r.picked_up_photo_urls || []).length > 0 && <div><span className="mono">Pickup photos</span>{r.picked_up_photo_urls.map((u) => <a key={u} href={u} target="_blank" rel="noopener"><img src={u} alt="Pickup" /></a>)}</div>}
+                  </div>
+                )}
+
                 {f.panel === 'deliver' && (
                   <div className="quote-box">
                     <strong>Delivered counts.</strong> Emailed to the customer; starts their {POLICY.countWindowHours}-hour window to report a mismatch.
                     <div className="charge-form">
                       <label>Totes <input className="amount" type="number" value={f.delTotes ?? exp.totes} onChange={(e) => setF(r.id, { delTotes: e.target.value })} /></label>
                       <label>Dollies <input className="amount" type="number" value={f.delDollies ?? exp.dollies} onChange={(e) => setF(r.id, { delDollies: e.target.value })} /></label>
-                      <button className="btn-charge" disabled={busy} onClick={() => act(r.id, '/api/admin/deliver', { totes: f.delTotes ?? exp.totes, dollies: f.delDollies ?? exp.dollies }, 'Record delivery and email the customer the count?')}>Send delivery email</button>
+                      <label>Photos <input type="file" accept="image/*" multiple onChange={(e) => setF(r.id, { delFiles: Array.from(e.target.files || []) })} /></label>
+                      <button className="btn-charge" disabled={busy} onClick={() => act(r.id, '/api/admin/deliver', { totes: f.delTotes ?? exp.totes, dollies: f.delDollies ?? exp.dollies }, `Record delivery and email the customer the count${(f.delFiles || []).length ? ` with ${(f.delFiles || []).length} photo(s)` : ''}?`, { kind: 'delivered', files: f.delFiles || [] })}>{busy ? 'Sending…' : 'Send delivery email'}</button>
                     </div>
                   </div>
                 )}
@@ -358,10 +395,11 @@ export default function AdminPage() {
                     <div className="charge-form">
                       <label>Totes <input className="amount" type="number" value={pickTotes} onChange={(e) => setF(r.id, { pickTotes: e.target.value })} /></label>
                       <label>Dollies <input className="amount" type="number" value={pickDollies} onChange={(e) => setF(r.id, { pickDollies: e.target.value })} /></label>
+                      <label>Photos <input type="file" accept="image/*" multiple onChange={(e) => setF(r.id, { pickFiles: Array.from(e.target.files || []) })} /></label>
                       <button
                         className="btn-charge"
                         disabled={busy}
-                        onClick={() => act(r.id, '/api/admin/pickup', { totes: pickTotes, dollies: pickDollies }, missFee > 0 ? `${missT} tote(s) and ${missD} dolly(ies) missing. This will CHARGE ${money(missFee)} to the card now and email the customer. Continue?` : 'Everything accounted for. Record pickup and email the customer?')}
+                        onClick={() => act(r.id, '/api/admin/pickup', { totes: pickTotes, dollies: pickDollies }, missFee > 0 ? `${missT} tote(s) and ${missD} dolly(ies) missing. This will CHARGE ${money(missFee)} to the card now and email the customer. Continue?` : 'Everything accounted for. Record pickup and email the customer?', { kind: 'pickup', files: f.pickFiles || [] })}
                       >
                         {missFee > 0 ? `Record & charge ${money(missFee)}` : 'Record pickup'}
                       </button>
