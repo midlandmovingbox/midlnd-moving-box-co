@@ -2,40 +2,15 @@ import { NextResponse } from 'next/server';
 import { isAdminRequest } from '../../../../lib/adminAuth';
 import { supabaseAdmin } from '../../../../lib/supabaseAdmin';
 import { normalizeCode } from '../../../../lib/discountMath';
-
-const COUNTED = ['requested', 'confirmed', 'returned'];
+import { loadCodeStats } from '../../../../lib/codeStats';
 
 // GET: every code with how it's performing. POST: create / turn on-off / delete.
 export async function GET(request) {
   if (!isAdminRequest(request)) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
-  const { data: codes, error } = await supabaseAdmin.from('discount_codes').select('*').order('created_at', { ascending: false });
-  if (error) return NextResponse.json({ error: 'Could not load codes. Has update-codes.sql been run?', missingTable: true }, { status: 200 });
-
-  const { data: reservations } = await supabaseAdmin.from('reservations').select('id,status,total,discount_code,discount_amount,square_payment_id');
-  const { data: charges } = await supabaseAdmin.from('charges').select('amount,note');
-  const refundedBy = {};
-  for (const c of charges || []) {
-    if (Number(c.amount) < 0) {
-      const m = String(c.note || '').match(/\[([^\]]+)\]/);
-      if (m) refundedBy[m[1]] = (refundedBy[m[1]] || 0) + Math.abs(Number(c.amount));
-    }
-  }
-
-  const out = codes.map((c) => {
-    const mine = (reservations || []).filter((r) => r.discount_code === c.code);
-    const uses = mine.filter((r) => COUNTED.includes(r.status)).length;
-    // Orders = charged and not refunded in full. Collected is net of any refund.
-    const orders = mine.filter((r) => r.square_payment_id && (refundedBy[r.square_payment_id] || 0) < Number(r.total) - 0.01);
-    return {
-      ...c,
-      value: Number(c.value),
-      uses,
-      orders: orders.length,
-      collected: Math.round(orders.reduce((a, r) => a + Number(r.total) - (refundedBy[r.square_payment_id] || 0), 0) * 100) / 100,
-      discountGiven: Math.round(orders.reduce((a, r) => a + Number(r.discount_amount || 0), 0) * 100) / 100,
-    };
-  });
-  return NextResponse.json({ codes: out });
+  const r = await loadCodeStats();
+  if (r.missingTable) return NextResponse.json({ error: 'Could not load codes. Has update-codes.sql been run?', missingTable: true });
+  const { data: referrers } = await supabaseAdmin.from('referrers').select('id,name,company').order('name');
+  return NextResponse.json({ codes: r.codes, referrers: referrers || [] });
 }
 
 export async function POST(request) {
@@ -44,6 +19,12 @@ export async function POST(request) {
 
   if (b.action === 'toggle') {
     const { error } = await supabaseAdmin.from('discount_codes').update({ active: !!b.active }).eq('id', b.id);
+    if (error) return NextResponse.json({ error: 'Could not update' }, { status: 500 });
+    return NextResponse.json({ success: true });
+  }
+
+  if (b.action === 'assign') {
+    const { error } = await supabaseAdmin.from('discount_codes').update({ referrer_id: b.referrerId || null }).eq('id', b.id);
     if (error) return NextResponse.json({ error: 'Could not update' }, { status: 500 });
     return NextResponse.json({ success: true });
   }
@@ -70,7 +51,8 @@ export async function POST(request) {
 
   const { error } = await supabaseAdmin.from('discount_codes').insert({
     code, type, value,
-    applies_to: type === 'percent' && b.appliesTo === 'base' ? 'base' : 'total',
+    applies_to: type === 'percent' && ['base', 'rentals'].includes(b.appliesTo) ? b.appliesTo : 'total',
+    referrer_id: b.referrerId || null,
     max_uses: maxUses,
     expires_on: expires,
     source: String(b.source || '').slice(0, 80) || null,

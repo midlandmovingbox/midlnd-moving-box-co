@@ -54,7 +54,7 @@ export async function POST(request) {
       if (rc.error) return NextResponse.json({ error: rc.error }, { status: 400 });
       codeRow = rc.row;
       const pre = computeTotals(pkg, addons, zones.knownTotal);
-      discount = discountAmount(codeRow, pkg, pre.subtotal);
+      discount = discountAmount(codeRow, pkg, pre.subtotal, pre.subtotal - zones.knownTotal);
     }
     const { subtotal, tax, total, cleanAddons, totes } = computeTotals(pkg, addons, zones.knownTotal, discount);
 

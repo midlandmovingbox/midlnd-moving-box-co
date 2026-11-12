@@ -126,7 +126,7 @@ export default function BookPage() {
     return (pkg ? PACKAGES[pkg].price : 0) + addonTotal() + zones.knownTotal;
   }
   function discount() {
-    return appliedCode && pkg ? discountAmount(appliedCode, pkg, subtotal()) : 0;
+    return appliedCode && pkg ? discountAmount(appliedCode, pkg, subtotal(), subtotal() - zones.knownTotal) : 0;
   }
   function tax() {
     return (subtotal() - discount()) * TAX_RATE;
